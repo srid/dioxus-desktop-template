@@ -20,7 +20,7 @@ This repository is still a work-in-progress. Here's the current progress:
     - [ ] Nix package containing macOS app bundle
 - [x] Tailwind
 - [ ] macOS bundling
-- [ ] Routes
+- [x] Routes & navigation
 - [ ] Application state
 
 ## Getting Starred

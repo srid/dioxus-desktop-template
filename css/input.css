@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+nav a.active {
+    @apply font-bold text-white bg-purple-600 shadow-md;
+}
