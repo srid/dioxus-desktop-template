@@ -13,9 +13,21 @@ Act as starter project for writing new desktop apps using Dioxus, along with
 
 This repository is still a work-in-progress. Here's the current progress:
 
-- [ ] Nix (currently reusing nix-browser shell from [this PR](https://github.com/juspay/nix-browser/pull/79))
+- [ ] Nix 
+  - [x] Devshell
+  - [ ] Nix package
 - [x] Hello World Dioxus project
 - [ ] Tailwind
 - [ ] macOS bundling
 - [ ] Routes
 - [ ] Application state
+
+## Getting Starred
+
+In the `nix develop` shell, run:
+
+```
+just watch
+```
+
+We do not have Nix builds yet; see tasks above.
