@@ -11,11 +11,11 @@ title = "dioxus-desktop-template | 🖥️"
 # when watcher trigger, regenerate the `index.html`
 reload_html = true
 # which files or dirs will be watcher monitoring
-watch_path = ["src"]
+watch_path = ["src", "assets"]
 
 [web.resource]
 # CSS style file
-style = [] # ["tailwind.css"]
+style = ["tailwind.css"]
 # Javascript code file
 script = []
 

@@ -15,9 +15,8 @@ This repository is still a work-in-progress. Here's the current progress:
 
 - [ ] Nix 
   - [x] Devshell
-  - [ ] Nix package
-- [x] Hello World Dioxus project
-- [ ] Tailwind
+  - [x] Nix package
+- [x] Tailwind
 - [ ] macOS bundling
 - [ ] Routes
 - [ ] Application state
