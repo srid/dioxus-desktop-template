@@ -61,17 +61,6 @@
             config.treefmt.build.devShell
             self'.devShells.dioxus-desktop-template
           ];
-          buildInputs =
-            let
-              rustBuildInputs = lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
-                IOKit
-                Carbon
-                WebKit
-                Security
-                Cocoa
-              ]);
-            in
-            rustBuildInputs;
           packages = with pkgs; [
             just
             nixci

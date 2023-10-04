@@ -15,6 +15,18 @@ in
             description = "Override crane args for the dioxus-desktop package";
           };
 
+          dioxus-desktop.rustBuildInputs = lib.mkOption {
+            type = lib.types.listOf lib.types.package;
+            default = lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
+              IOKit
+              Carbon
+              WebKit
+              Security
+              Cocoa
+            ]);
+            description = "Build inputs for building the cargo package";
+          };
+
           dioxus-desktop.rustToolchain = lib.mkOption {
             type = lib.types.package;
             description = "Rust toolchain to use for the dioxus-desktop package";
@@ -66,7 +78,7 @@ in
                 buildInputs = [
                   pkgs.dioxus-cli
                   tailwindcss
-                ];
+                ] ++ config.dioxus-desktop.rustBuildInputs;
               };
               cargoArtifacts = craneLib.buildDepsOnly args;
               buildArgs = args // {
@@ -96,7 +108,7 @@ in
               '';
               buildInputs = [
                 pkgs.libiconv
-              ];
+              ] ++ config.dioxus-desktop.rustBuildInputs;
               nativeBuildInputs = [
                 rustToolchain
               ];
