@@ -1,0 +1,26 @@
+[application]
+name = "dioxus-desktop-template"
+default_platform = "desktop"
+out_dir = "dist"
+asset_dir = "assets"
+
+[web.app]
+title = "dioxus-desktop-template | 🖥️"
+
+[web.watcher]
+# when watcher trigger, regenerate the `index.html`
+reload_html = true
+# which files or dirs will be watcher monitoring
+watch_path = ["src"]
+
+[web.resource]
+# CSS style file
+style = [] # ["tailwind.css"]
+# Javascript code file
+script = []
+
+[web.resource.dev]
+# CSS style file
+style = []
+# Javascript code file
+script = []
