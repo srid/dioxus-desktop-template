@@ -4,7 +4,7 @@ default:
 # Auto-format the source tree
 fmt:
     treefmt
-    dx fmt -f src/main.rs
+    find src -name \*.rs | xargs -n 1 dx fmt -f
 
 # Run the project locally
 watch $RUST_BACKTRACE="1":
