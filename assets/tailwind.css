@@ -568,6 +568,10 @@ video {
   }
 }
 
+.m-auto {
+  margin: auto;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -575,6 +579,14 @@ video {
 
 .mb-8 {
   margin-bottom: 2rem;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
+.mb-auto {
+  margin-bottom: auto;
 }
 
 .flex {
@@ -593,6 +605,14 @@ video {
   height: 8rem;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
+.h-10 {
+  height: 2.5rem;
+}
+
 .w-full {
   width: 100%;
 }
@@ -603,6 +623,10 @@ video {
 
 .w-32 {
   width: 8rem;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
 }
 
 .flex-row {
@@ -631,6 +655,10 @@ video {
 
 .self-center {
   align-self: center;
+}
+
+.rounded {
+  border-radius: 0.25rem;
 }
 
 .bg-purple-200 {

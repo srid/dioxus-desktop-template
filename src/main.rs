@@ -33,10 +33,10 @@ fn App(cx: Scope) -> Element {
 
 fn Wrapper(cx: Scope) -> Element {
     render! {
-        Nav {}
-        div { class: "container mx-auto text-xl p-4 flex flex-col items-center",
-            div { Outlet::<Route> {} }
-            footer { class: "flex flex-row justify-center items-center w-full p-4 text-sm text-gray-400",
+        div { class: "container text-xl flex flex-col items-center justify-between h-screen",
+            Nav {}
+            div { class: "m-auto p-4", Outlet::<Route> {} }
+            footer { class: "mx-auto flex flex-row justify-center items-center w-full p-4 text-sm text-gray-400",
                 "Powered by Dioxus "
                 img { class: "w-4 h-4 self-center", src: "dioxus.png" }
             }
@@ -57,7 +57,12 @@ fn Home(cx: Scope) -> Element {
 fn About(cx: Scope) -> Element {
     render! {
         div { class: "flex flex-col items-center",
-            p { "You are looking at a Dioxus app" }
+            p {
+                "You are looking at a "
+                span { class: "font-bold", "Dioxus" }
+                " app"
+            }
+
             a { href: "https://dioxuslabs.com/", img { class: "w-32 h-32", src: "dioxus.png" } }
         }
     }
@@ -66,7 +71,7 @@ fn About(cx: Scope) -> Element {
 fn Nav(cx: Scope) -> Element {
     let NavLink = |route: Route, text: &str| {
         render! {
-            Link { to: route, class: "px-3 py-2 text-purple-600", active_class: "active", text }
+            Link { to: route, class: "px-3 py-2 text-purple-600 rounded", active_class: "active", text }
         }
     };
     render! {
