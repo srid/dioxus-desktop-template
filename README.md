@@ -73,5 +73,6 @@ This repository began in large part to understand how to manage application stat
   - Use `state.with_mut` to mutate the state in place.
   - Use `state.read().<field>` to render a component based on a field
     - Use `dioxus_signals::use_selector` to produce a derived signal
+  - Note that the state struct should use `Signal` for its field type. Nested tree of `Signal`s is the idiom.
 - [x] Component re-renders when only relevant subset of the state changes
 - [ ] State modification that relies on a long-running blocking task
