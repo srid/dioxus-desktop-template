@@ -32,6 +32,7 @@ enum Route {
         About {},
 }
 
+/// Get the [AppState] from context
 fn use_app_state(cx: Scope) -> AppState {
     *use_context(cx).unwrap()
 }

@@ -68,11 +68,13 @@ This repository began in large part to understand how to manage application stat
   - The state can be changed to a new value, but not mutated. There is no per-field granularity.
 - [x] Shared state, that can be modified (from *anywhere* in the component tree)
   - We use [dioxus-signals](https://github.com/DioxusLabs/dioxus/blob/master/packages/signals/README.md) (requires Dioxus from Git) to provide fine-grained mutation and component rerendering.
-  - In the top `App` component, use `use_context_provider(cx, || Signal::new(AppState::new()));`
-  - In inner components, use `let state: Signal<AppState> = *use_context(cx).unwrap();` to access the current state value.
-  - Use `state.with_mut` to mutate the state in place.
-  - Use `state.read().<field>` to render a component based on a field
+  - In the top `App` component, use `use_context_provider(cx, AppState::new());`
+  - In inner components, use `let state: AppState = *use_context(cx).unwrap();` to access the current state value.
+  - Make individual fields of the state struct a `Signal` type
+    - The state struct should use `Signal` for its field types. Nested tree of `Signal`s is the idiom.
+  - Use `state.<field>` to render a component based on a field signal
     - Use `dioxus_signals::use_selector` to produce a derived signal
-  - Note that the state struct should use `Signal` for its field type. Nested tree of `Signal`s is the idiom.
 - [x] Component re-renders when only relevant subset of the state changes
-- [ ] State modification that relies on a long-running blocking task
+- [x] State modification that relies on a long-running blocking task
+  - Write *async* modifier methods on the state struct, and have them update the field signals.
+  - In the UI components, use `use_future` to invoke these async methods to update the state before the component is renderer (or upon an user event).
