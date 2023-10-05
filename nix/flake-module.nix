@@ -17,7 +17,9 @@ in
 
           dioxus-desktop.rustBuildInputs = lib.mkOption {
             type = lib.types.listOf lib.types.package;
-            default = lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
+            default = with pkgs; [
+              pkg-config
+            ] ++ lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
               IOKit
               Carbon
               WebKit
