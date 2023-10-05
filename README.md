@@ -18,6 +18,7 @@ This repository is still a work-in-progress. Here's the current progress:
   - [ ] Nix package
     - [x] Simple `nix build` / `nix run`
     - [ ] Nix package containing macOS app bundle
+    - [ ] Nix package for Linux
 - [x] Tailwind
 - [x] macOS bundling
 - [x] Routes & navigation
