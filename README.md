@@ -1,6 +1,6 @@
 # dioxus-desktop-template
 
-WIP: A starter template for [Dioxus](https://dioxuslabs.com/) Desktop apps w/ Tailwind & Nix
+A starter template for [Dioxus](https://dioxuslabs.com/) Desktop apps w/ Tailwind & Nix
 
 ## Goal
 
@@ -22,7 +22,7 @@ This repository is still a work-in-progress. Here's the current progress:
 - [x] Tailwind
 - [x] macOS bundling
 - [x] Routes & navigation
-- [ ] [Application state](#application-state)
+- [x] [Application state](#application-state)
   - We use `dioxus-signals` which is unreleased, thus we depend on Dioxus from Git.
 
 Stretch goals:
@@ -59,8 +59,6 @@ nix run github:srid/dioxus-desktop-template
 ### Application State
 
 This repository began in large part to understand how to manage application state in Dioxus Desktop apps, and come up with some best demonstrable practices for it.
-
-🚧
 
 - [x] Shared read-only state
   - In the top `App` component, use [`use_shared_state_provider`](https://dioxuslabs.com/learn/0.4/guide/state#state) to initialize the application state.
