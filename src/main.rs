@@ -6,6 +6,7 @@ use dioxus_desktop::{LogicalSize, WindowBuilder};
 use dioxus_router::prelude::*;
 use dioxus_signals::*;
 use state::AppState;
+use sysinfo::System;
 
 fn main() {
     // launch the dioxus app in a webview
@@ -27,6 +28,8 @@ enum Route {
     #[layout(Wrapper)]
         #[route("/")]
         Home {},
+        #[route("/info")]
+        SystemInfo {},
         #[route("/about")]
         About {},
 }
@@ -72,6 +75,43 @@ fn Home(cx: Scope) -> Element {
     }
 }
 
+fn SystemInfo(cx: Scope) -> Element {
+    let state: Signal<AppState> = *use_context(cx).unwrap();
+    render! {
+        div{
+            class: "flex flex-col items-center",
+            // FIXME: Is there a better way to initialize a Signal on component
+            // load, so that we don't have to create a separate
+            // `SystemInfoInner` component function (see below)?
+            onmounted: move |_event| {
+                println!("Updating systemstat...");
+                state.with(AppState::update_systemstat);
+            },
+            h1 { class: "text-2xl font-bold mb-4", "System Info" },
+            SystemInfoInner {}
+        }
+    }
+}
+
+#[component]
+fn SystemInfoInner(cx: Scope) -> Element {
+    let state: Signal<AppState> = *use_context(cx).unwrap();
+    let system: &Signal<Option<System>> = &state.read().system;
+    let x: Element = match &*system.read() {
+        None => render! { "Loading..." },
+        Some(system) => {
+            let s = format!("{:?}", system);
+            render! {
+                div {
+                    class: "text-sm",
+                    code { "{s}" }
+                }
+            }
+        }
+    };
+    x
+}
+
 fn About(cx: Scope) -> Element {
     render! {
         div { class: "flex flex-col items-center",
@@ -97,6 +137,7 @@ fn Nav(cx: Scope) -> Element {
             div { class: "flex items-center", h1 { class: "text-lg font-bold", "Dioxus Desktop Template" } }
             div { class: "flex items-center",
                 NavLink(Route::Home {}, "Home"),
+                NavLink(Route::SystemInfo {}, "System")
                 NavLink(Route::About {}, "About")
             }
         }
