@@ -19,16 +19,28 @@ This repository is still a work-in-progress. Here's the current progress:
     - [ ] Simple `nix build` / `nix run`
     - [ ] Nix package containing macOS app bundle
 - [x] Tailwind
-- [ ] macOS bundling
+- [x] macOS bundling
 - [x] Routes & navigation
 - [ ] Application state
+
+Stretch goals:
+
+- macOS Application menu entries
 
 ## Getting Starred
 
 In the `nix develop` shell, run:
 
 ```
-just watch
+# Run these in two separate terminals
+just tw     # Tailwind watcher
+just watch  # Dioxus watcher
 ```
 
 We do not have Nix builds yet; see tasks above.
+
+### Creating macOS app bundle
+
+```
+just bundle
+```

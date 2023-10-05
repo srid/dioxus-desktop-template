@@ -24,3 +24,21 @@ script = []
 style = []
 # Javascript code file
 script = []
+
+# FIXME: Need to `cd assets` before running `dx bundle` due to https://github.com/DioxusLabs/dioxus/issues/1283
+[bundle]
+name = "dioxus-desktop-template"
+identifier = "ca.srid.dioxus-desktop-template"
+icon = ["dioxus.png"]
+version = "1.0.0"
+resources = ["**/tailwind.css", "**/*.png"]
+copyright = "Copyright (c) Sridhar Ratnakumar. All rights reserved."
+category = "Developer Tool"
+short_description = "WIP: your description goes here"
+long_description = """
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut
+enim ad minim veniam, quis nostrud exercitation ullamco laboris
+nisi ut aliquip ex ea commodo consequat.
+"""
+osx_frameworks = []
