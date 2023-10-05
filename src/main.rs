@@ -4,6 +4,7 @@ mod state;
 use dioxus::prelude::*;
 use dioxus_desktop::{LogicalSize, WindowBuilder};
 use dioxus_router::prelude::*;
+use dioxus_signals::*;
 use state::AppState;
 
 fn main() {
@@ -31,7 +32,7 @@ enum Route {
 }
 
 fn App(cx: Scope) -> Element {
-    use_shared_state_provider(cx, AppState::new);
+    use_context_provider(cx, || Signal::new(AppState::new()));
 
     cx.render(rsx! { Router::<Route> {} })
 }
@@ -50,12 +51,23 @@ fn Wrapper(cx: Scope) -> Element {
 }
 
 fn Home(cx: Scope) -> Element {
-    let state = use_shared_state::<AppState>(cx).unwrap();
+    let state: Signal<AppState> = *use_context(cx).unwrap();
+    let name = dioxus_signals::use_selector(cx, move || state.with(|s| s.name.clone()));
     render! {
         p {
             "Hello, "
-            span { class: "font-bold", state.read().name.clone() }
+            span { class: "font-bold", "{name}" }
             "!"
+        }
+        div {
+            class: "hover:bg-purple-200 text-sm mt-4 italic rounded cursor-pointer",
+            onmouseenter: move |_event| {
+                state.with_mut(|s| s.name = s.name.chars().rev().collect::<String>());
+            },
+            onmouseleave: move |_event| {
+                state.with_mut(|s| s.name = s.name.chars().rev().collect::<String>());
+            },
+            "Reverse my name!"
         }
     }
 }

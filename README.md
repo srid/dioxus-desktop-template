@@ -23,6 +23,7 @@ This repository is still a work-in-progress. Here's the current progress:
 - [x] macOS bundling
 - [x] Routes & navigation
 - [ ] [Application state](#application-state)
+  - We use `dioxus-signals` which is unreleased, thus we depend on Dioxus from Git.
 
 Stretch goals:
 
@@ -62,7 +63,14 @@ This repository began in large part to understand how to manage application stat
 🚧
 
 - [x] Shared read-only state
-  - In the top `App` component, use `use_shared_state_provider` to initialize the application state.
+  - In the top `App` component, use [`use_shared_state_provider`](https://dioxuslabs.com/learn/0.4/guide/state#state) to initialize the application state.
   - In inner components, use `use_shared_state::<T>`, followed by a `.read()` on it, to access the current state value.
-- [ ] Shared state, that can be modified
-- [ ] Component that re-renders when only relevant subset of the state changes
+  - The state can be changed to a new value, but not mutated. There is no per-field granularity.
+- [x] Shared state, that can be modified (from *anywhere* in the component tree)
+  - We use [dioxus-signals](https://github.com/DioxusLabs/dioxus/blob/master/packages/signals/README.md) (requires Dioxus from Git) to provide fine-grained mutation and component rerendering.
+  - In the top `App` component, use `use_context_provider(cx, || Signal::new(AppState::new()));`
+  - In inner components, use `let state: Signal<AppState> = *use_context(cx).unwrap();` to access the current state value.
+  - Use `state.with_mut` to mutate the state in place.
+  - Use `dioxus_signals::use_selector` to read a subset of the state, and re-render only when that subset changes.
+- [x] Component re-renders when only relevant subset of the state changes
+- [ ] State modification that relies on a long-running blocking task
