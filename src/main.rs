@@ -4,9 +4,7 @@ mod state;
 use dioxus::prelude::*;
 use dioxus_desktop::{LogicalSize, WindowBuilder};
 use dioxus_router::prelude::*;
-use dioxus_signals::*;
 use state::AppState;
-use sysinfo::System;
 
 fn main() {
     // launch the dioxus app in a webview
