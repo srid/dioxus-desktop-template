@@ -52,7 +52,7 @@ fn Wrapper(cx: Scope) -> Element {
 
 fn Home(cx: Scope) -> Element {
     let state: Signal<AppState> = *use_context(cx).unwrap();
-    let name = dioxus_signals::use_selector(cx, move || state.with(|s| s.name.clone()));
+    let name = &state.read().name;
     render! {
         p {
             "Hello, "

@@ -71,6 +71,7 @@ This repository began in large part to understand how to manage application stat
   - In the top `App` component, use `use_context_provider(cx, || Signal::new(AppState::new()));`
   - In inner components, use `let state: Signal<AppState> = *use_context(cx).unwrap();` to access the current state value.
   - Use `state.with_mut` to mutate the state in place.
-  - Use `dioxus_signals::use_selector` to read a subset of the state, and re-render only when that subset changes.
+  - Use `state.read().<field>` to render a component based on a field
+    - Use `dioxus_signals::use_selector` to produce a derived signal
 - [x] Component re-renders when only relevant subset of the state changes
 - [ ] State modification that relies on a long-running blocking task
