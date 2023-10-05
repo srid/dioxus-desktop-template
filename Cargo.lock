@@ -741,6 +741,7 @@ dependencies = [
  "dioxus-signals",
  "dioxus-std",
  "sysinfo",
+ "tokio",
 ]
 
 [[package]]

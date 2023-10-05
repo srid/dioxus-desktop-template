@@ -34,8 +34,12 @@ enum Route {
         About {},
 }
 
+fn use_app_state(cx: Scope) -> AppState {
+    *use_context(cx).unwrap()
+}
+
 fn App(cx: Scope) -> Element {
-    use_context_provider(cx, || Signal::new(AppState::new()));
+    use_context_provider(cx, AppState::new);
 
     cx.render(rsx! { Router::<Route> {} })
 }
@@ -54,8 +58,8 @@ fn Wrapper(cx: Scope) -> Element {
 }
 
 fn Home(cx: Scope) -> Element {
-    let state: Signal<AppState> = *use_context(cx).unwrap();
-    let name = &state.read().name;
+    let state = use_app_state(cx);
+    let name = state.name;
     render! {
         p {
             "Hello, "
@@ -65,10 +69,10 @@ fn Home(cx: Scope) -> Element {
         div {
             class: "hover:bg-purple-200 text-sm mt-4 italic rounded cursor-pointer",
             onmouseenter: move |_event| {
-                state.with(AppState::reverse_name);
+                state.reverse_name();
             },
             onmouseleave: move |_event| {
-                state.with(AppState::reverse_name);
+                state.reverse_name();
             },
             "Reverse my name!"
         }
@@ -76,40 +80,38 @@ fn Home(cx: Scope) -> Element {
 }
 
 fn SystemInfo(cx: Scope) -> Element {
-    let state: Signal<AppState> = *use_context(cx).unwrap();
+    let state = use_app_state(cx);
+    use_future(cx, (), |_| async move {
+        state.update_systemstat().await;
+    });
     render! {
-        div{
-            class: "flex flex-col items-center",
-            // FIXME: Is there a better way to initialize a Signal on component
-            // load, so that we don't have to create a separate
-            // `SystemInfoInner` component function (see below)?
-            onmounted: move |_event| {
-                println!("Updating systemstat...");
-                state.with(AppState::update_systemstat);
-            },
-            h1 { class: "text-2xl font-bold mb-4", "System Info" },
-            SystemInfoInner {}
+        div { class: "flex flex-col items-center",
+            h1 { class: "text-2xl font-bold mb-4", "System Info" }
+            {
+                let x: Element = match &*state.system.read() {
+                    None => render! { Loader {} },
+                    Some(system) => {
+                        let s = format!("{:?}", system);
+                        render! {
+                            div {
+                                class: "text-sm",
+                                code { "{s}" }
+                            }
+                        }
+                    }
+                };
+                x
+            }
         }
     }
 }
 
-#[component]
-fn SystemInfoInner(cx: Scope) -> Element {
-    let state: Signal<AppState> = *use_context(cx).unwrap();
-    let system: &Signal<Option<System>> = &state.read().system;
-    let x: Element = match &*system.read() {
-        None => render! { "Loading..." },
-        Some(system) => {
-            let s = format!("{:?}", system);
-            render! {
-                div {
-                    class: "text-sm",
-                    code { "{s}" }
-                }
-            }
+fn Loader(cx: Scope) -> Element {
+    render! {
+        div { class: "flex justify-center items-center",
+            div { class: "animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500" }
         }
-    };
-    x
+    }
 }
 
 fn About(cx: Scope) -> Element {
@@ -137,7 +139,7 @@ fn Nav(cx: Scope) -> Element {
             div { class: "flex items-center", h1 { class: "text-lg font-bold", "Dioxus Desktop Template" } }
             div { class: "flex items-center",
                 NavLink(Route::Home {}, "Home"),
-                NavLink(Route::SystemInfo {}, "System")
+                NavLink(Route::SystemInfo {}, "System"),
                 NavLink(Route::About {}, "About")
             }
         }

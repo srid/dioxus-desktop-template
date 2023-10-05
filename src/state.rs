@@ -23,18 +23,17 @@ impl AppState {
         self.name.with_mut(|s| *s = reverse(s));
     }
 
-    pub fn update_systemstat(&self) {
+    pub async fn update_systemstat(&self) {
         let get_sys = || {
-            // Sleep a second to simulate slowness
+            // Sleep a second to simulate long-running task
             std::thread::sleep(std::time::Duration::from_secs(1));
-            let mut sys =
-                sysinfo::System::new_with_specifics(sysinfo::RefreshKind::new().with_memory());
-            sys.refresh_memory();
-            sys
+            sysinfo::System::new_with_specifics(sysinfo::RefreshKind::new().with_memory())
         };
-        self.system.with_mut(|x| {
-            *x = Some(get_sys());
-            println!("Updated sys: {:?}", *x);
+        println!("Updating systemstat...");
+        let sys = tokio::task::spawn_blocking(get_sys).await.unwrap();
+        self.system.with_mut(move |x| {
+            *x = Some(sys);
+            println!("Updated systemstat to: {:?}", *x);
         });
     }
 }
