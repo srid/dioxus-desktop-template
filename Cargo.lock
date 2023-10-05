@@ -604,9 +604,9 @@ dependencies = [
 [[package]]
 name = "dioxus"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
- "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git)",
+ "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf)",
  "dioxus-core-macro 0.4.2",
  "dioxus-hooks 0.4.2",
  "dioxus-hot-reload 0.4.2",
@@ -634,7 +634,7 @@ dependencies = [
 [[package]]
 name = "dioxus-core"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#30a328343860ec66d48014bace616648c65993ce"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
  "bumpalo",
  "futures-channel",
@@ -662,10 +662,10 @@ dependencies = [
 [[package]]
 name = "dioxus-core-macro"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
  "constcat",
- "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git)",
+ "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf)",
  "dioxus-rsx 0.4.2",
  "proc-macro2",
  "quote",
@@ -681,11 +681,11 @@ checksum = "2ea539174bb236e0e7dc9c12b19b88eae3cb574dedbd0252a2d43ea7e6de13e2"
 [[package]]
 name = "dioxus-desktop"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
  "async-trait",
  "core-foundation",
- "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git)",
+ "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf)",
  "dioxus-hot-reload 0.4.2",
  "dioxus-html 0.4.2",
  "dioxus-interpreter-js",
@@ -735,9 +735,9 @@ dependencies = [
 [[package]]
 name = "dioxus-hooks"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
- "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git)",
+ "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf)",
  "dioxus-debug-cell",
  "futures-channel",
  "slab",
@@ -762,9 +762,9 @@ dependencies = [
 [[package]]
 name = "dioxus-hot-reload"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
- "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git)",
+ "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf)",
  "dioxus-html 0.4.2",
  "dioxus-rsx 0.4.2",
  "interprocess-docfix",
@@ -794,11 +794,11 @@ dependencies = [
 [[package]]
 name = "dioxus-html"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
  "async-channel",
  "async-trait",
- "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git)",
+ "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf)",
  "enumset",
  "euclid",
  "keyboard-types 0.7.0",
@@ -813,12 +813,12 @@ dependencies = [
 [[package]]
 name = "dioxus-interpreter-js"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 
 [[package]]
 name = "dioxus-router"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
  "anyhow",
  "dioxus 0.4.2",
@@ -838,7 +838,7 @@ dependencies = [
 [[package]]
 name = "dioxus-router-macro"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -861,9 +861,9 @@ dependencies = [
 [[package]]
 name = "dioxus-rsx"
 version = "0.4.2"
-source = "git+https://github.com/DioxusLabs/dioxus.git#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
- "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git)",
+ "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf)",
  "proc-macro2",
  "quote",
  "syn 2.0.37",
@@ -872,9 +872,9 @@ dependencies = [
 [[package]]
 name = "dioxus-signals"
 version = "0.0.0"
-source = "git+https://github.com/DioxusLabs/dioxus.git#30a328343860ec66d48014bace616648c65993ce"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
- "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git)",
+ "dioxus-core 0.4.2 (git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf)",
  "generational-box",
  "simple_logger",
  "tracing",
@@ -1268,7 +1268,7 @@ dependencies = [
 [[package]]
 name = "generational-box"
 version = "0.0.0"
-source = "git+https://github.com/DioxusLabs/dioxus.git#30a328343860ec66d48014bace616648c65993ce"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=459f24d5e9ef0e03a3bbd037342c60bbde409dbf#459f24d5e9ef0e03a3bbd037342c60bbde409dbf"
 dependencies = [
  "bumpalo",
 ]
