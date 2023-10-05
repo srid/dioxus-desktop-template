@@ -4,7 +4,6 @@ mod state;
 use dioxus::prelude::*;
 use dioxus_desktop::{LogicalSize, WindowBuilder};
 use dioxus_router::prelude::*;
-use dioxus_signals::*;
 use state::AppState;
 
 fn main() {
@@ -27,12 +26,19 @@ enum Route {
     #[layout(Wrapper)]
         #[route("/")]
         Home {},
+        #[route("/info")]
+        SystemInfo {},
         #[route("/about")]
         About {},
 }
 
+/// Get the [AppState] from context
+fn use_app_state(cx: Scope) -> AppState {
+    *use_context(cx).unwrap()
+}
+
 fn App(cx: Scope) -> Element {
-    use_context_provider(cx, || Signal::new(AppState::new()));
+    use_context_provider(cx, AppState::new);
 
     cx.render(rsx! { Router::<Route> {} })
 }
@@ -51,8 +57,8 @@ fn Wrapper(cx: Scope) -> Element {
 }
 
 fn Home(cx: Scope) -> Element {
-    let state: Signal<AppState> = *use_context(cx).unwrap();
-    let name = &state.read().name;
+    let state = use_app_state(cx);
+    let name = state.name;
     render! {
         p {
             "Hello, "
@@ -62,12 +68,47 @@ fn Home(cx: Scope) -> Element {
         div {
             class: "hover:bg-purple-200 text-sm mt-4 italic rounded cursor-pointer",
             onmouseenter: move |_event| {
-                state.with(AppState::reverse_name);
+                state.reverse_name();
             },
             onmouseleave: move |_event| {
-                state.with(AppState::reverse_name);
+                state.reverse_name();
             },
             "Reverse my name!"
+        }
+    }
+}
+
+fn SystemInfo(cx: Scope) -> Element {
+    let state = use_app_state(cx);
+    use_future(cx, (), |_| async move {
+        state.update_systemstat().await;
+    });
+    render! {
+        div { class: "flex flex-col items-center",
+            h1 { class: "text-2xl font-bold mb-4", "System Info" }
+            {
+                let x: Element = match &*state.system.read() {
+                    None => render! { Loader {} },
+                    Some(system) => {
+                        let s = format!("{:?}", system);
+                        render! {
+                            div {
+                                class: "text-sm",
+                                code { "{s}" }
+                            }
+                        }
+                    }
+                };
+                x
+            }
+        }
+    }
+}
+
+fn Loader(cx: Scope) -> Element {
+    render! {
+        div { class: "flex justify-center items-center",
+            div { class: "animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500" }
         }
     }
 }
@@ -97,6 +138,7 @@ fn Nav(cx: Scope) -> Element {
             div { class: "flex items-center", h1 { class: "text-lg font-bold", "Dioxus Desktop Template" } }
             div { class: "flex items-center",
                 NavLink(Route::Home {}, "Home"),
+                NavLink(Route::SystemInfo {}, "System"),
                 NavLink(Route::About {}, "About")
             }
         }
