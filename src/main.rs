@@ -1,7 +1,10 @@
 #![allow(non_snake_case)]
+mod state;
+
 use dioxus::prelude::*;
 use dioxus_desktop::{LogicalSize, WindowBuilder};
 use dioxus_router::prelude::*;
+use state::AppState;
 
 fn main() {
     // launch the dioxus app in a webview
@@ -28,6 +31,8 @@ enum Route {
 }
 
 fn App(cx: Scope) -> Element {
+    use_shared_state_provider(cx, AppState::new);
+
     cx.render(rsx! { Router::<Route> {} })
 }
 
@@ -45,10 +50,11 @@ fn Wrapper(cx: Scope) -> Element {
 }
 
 fn Home(cx: Scope) -> Element {
+    let state = use_shared_state::<AppState>(cx).unwrap();
     render! {
         p {
             "Hello, "
-            span { class: "font-bold", "world" }
+            span { class: "font-bold", state.read().name.clone() }
             "!"
         }
     }

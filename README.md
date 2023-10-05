@@ -22,7 +22,7 @@ This repository is still a work-in-progress. Here's the current progress:
 - [x] Tailwind
 - [x] macOS bundling
 - [x] Routes & navigation
-- [ ] Application state
+- [ ] [Application state](#application-state)
 
 Stretch goals:
 
@@ -52,3 +52,17 @@ just bundle
 nix run github:srid/dioxus-desktop-template
 # Or just `nix run` in the project directory
 ```
+
+## Notes
+
+### Application State
+
+This repository began in large part to understand how to manage application state in Dioxus Desktop apps, and come up with some best demonstrable practices for it.
+
+🚧
+
+- [x] Shared read-only state
+  - In the top `App` component, use `use_shared_state_provider` to initialize the application state.
+  - In inner components, use `use_shared_state::<T>`, followed by a `.read()` on it, to access the current state value.
+- [ ] Shared state, that can be modified
+- [ ] Component that re-renders when only relevant subset of the state changes
