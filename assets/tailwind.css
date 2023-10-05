@@ -581,8 +581,28 @@ video {
   display: flex;
 }
 
+.h-4 {
+  height: 1rem;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.h-32 {
+  height: 8rem;
+}
+
 .w-full {
   width: 100%;
+}
+
+.w-4 {
+  width: 1rem;
+}
+
+.w-32 {
+  width: 8rem;
 }
 
 .flex-row {
@@ -603,6 +623,14 @@ video {
 
 .justify-between {
   justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.self-center {
+  align-self: center;
 }
 
 .bg-purple-200 {

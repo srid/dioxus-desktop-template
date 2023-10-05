@@ -4,6 +4,7 @@ default:
 # Auto-format the source tree
 fmt:
     treefmt
+    dx fmt -f src/main.rs
 
 # Run the project locally
 watch $RUST_BACKTRACE="1":

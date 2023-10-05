@@ -34,10 +34,11 @@ fn App(cx: Scope) -> Element {
 fn Wrapper(cx: Scope) -> Element {
     render! {
         Nav {}
-        div { class: "container mx-auto text-xl p-4 flex flex-col justify-center items-center",
-            Outlet::<Route> {}
-            footer { class: "flex flex-row justify-center w-full p-4 text-sm text-gray-400",
-                "Powered by Dioxus"
+        div { class: "container mx-auto text-xl p-4 flex flex-col items-center",
+            div { Outlet::<Route> {} }
+            footer { class: "flex flex-row justify-center items-center w-full p-4 text-sm text-gray-400",
+                "Powered by Dioxus "
+                img { class: "w-4 h-4 self-center", src: "dioxus.png" }
             }
         }
     }
@@ -54,7 +55,12 @@ fn Home(cx: Scope) -> Element {
 }
 
 fn About(cx: Scope) -> Element {
-    render! { p { "This is the about page." } }
+    render! {
+        div { class: "flex flex-col items-center",
+            p { "You are looking at a Dioxus app" }
+            a { href: "https://dioxuslabs.com/", img { class: "w-32 h-32", src: "dioxus.png" } }
+        }
+    }
 }
 
 fn Nav(cx: Scope) -> Element {
@@ -67,7 +73,7 @@ fn Nav(cx: Scope) -> Element {
         nav { class: "flex flex-row justify-between w-full mb-8 px-4 py-2 bg-purple-200",
             div { class: "flex items-center", h1 { class: "text-lg font-bold", "Dioxus Desktop Template" } }
             div { class: "flex items-center",
-                NavLink(Route::Home {}, "Home")
+                NavLink(Route::Home {}, "Home"),
                 NavLink(Route::About {}, "About")
             }
         }
