@@ -16,7 +16,7 @@ This repository is still a work-in-progress. Here's the current progress:
 - [ ] Nix 
   - [x] Devshell
   - [ ] Nix package
-    - [ ] Simple `nix build` / `nix run`
+    - [x] Simple `nix build` / `nix run`
     - [ ] Nix package containing macOS app bundle
 - [x] Tailwind
 - [x] macOS bundling
@@ -43,4 +43,11 @@ We do not have Nix builds yet; see tasks above.
 
 ```
 just bundle
+```
+
+### Running via Nix
+
+```
+nix run github:srid/dioxus-desktop-template
+# Or just `nix run` in the project directory
 ```

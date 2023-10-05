@@ -55,6 +55,8 @@
           };
         };
 
+        packages.default = self'.packages.dioxus-desktop-template;
+
         devShells.default = pkgs.mkShell {
           name = "nix-browser";
           inputsFrom = [
