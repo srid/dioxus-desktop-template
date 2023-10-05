@@ -17,9 +17,9 @@ in
 
           dioxus-desktop.rustBuildInputs = lib.mkOption {
             type = lib.types.listOf lib.types.package;
-            default = with pkgs; [
-              pkg-config
-            ] ++ lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
+            default = [ ] ++ lib.optionals pkgs.stdenv.isLinux (with pkgs; [
+              webkitgtk_4_1
+            ]) ++ lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
               IOKit
               Carbon
               WebKit
@@ -81,6 +81,12 @@ in
                   pkgs.dioxus-cli
                   tailwindcss
                 ] ++ config.dioxus-desktop.rustBuildInputs;
+                nativeBuildInputs = [
+                  pkgs.pkg-config
+                ];
+                # glib-sys fails to build on linux without this
+                # cf. https://github.com/ipetkov/crane/issues/411#issuecomment-1747533532
+                strictDeps = true;
               };
               cargoArtifacts = craneLib.buildDepsOnly args;
               buildArgs = args // {
