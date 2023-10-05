@@ -62,10 +62,10 @@ fn Home(cx: Scope) -> Element {
         div {
             class: "hover:bg-purple-200 text-sm mt-4 italic rounded cursor-pointer",
             onmouseenter: move |_event| {
-                state.with_mut(|s| s.name = s.name.chars().rev().collect::<String>());
+                state.with_mut(AppState::reverse_name);
             },
             onmouseleave: move |_event| {
-                state.with_mut(|s| s.name = s.name.chars().rev().collect::<String>());
+                state.with_mut(AppState::reverse_name);
             },
             "Reverse my name!"
         }
