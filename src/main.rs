@@ -83,23 +83,21 @@ fn SystemInfo(cx: Scope) -> Element {
     use_future(cx, (), |_| async move {
         state.update_systemstat().await;
     });
+    let system = state.system.read();
     render! {
         div { class: "flex flex-col items-center",
             h1 { class: "text-2xl font-bold mb-4", "System Info" }
-            {
-                let x: Element = match &*state.system.read() {
-                    None => render! { Loader {} },
-                    Some(system) => {
-                        let s = format!("{:?}", system);
-                        render! {
-                            div {
-                                class: "text-sm",
-                                code { "{s}" }
-                            }
+            match &*system {
+                None => render! { Loader {} },
+                Some(system) => {
+                    let s = format!("{:?}", system);
+                    render! {
+                        div {
+                            class: "text-sm font-mono",
+                            s
                         }
                     }
-                };
-                x
+                }
             }
         }
     }
@@ -121,7 +119,6 @@ fn About(cx: Scope) -> Element {
                 span { class: "font-bold", "Dioxus" }
                 " app"
             }
-
             a { href: "https://dioxuslabs.com/", img { class: "w-32 h-32", src: "dioxus.png" } }
         }
     }
