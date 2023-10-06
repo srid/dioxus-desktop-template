@@ -23,6 +23,7 @@ This repository is still a work-in-progress. Here's the current progress:
 - [x] macOS bundling
 - [x] Routes & navigation
 - [ ] Application state
+- [ ] Linux bundling
 
 Stretch goals:
 
