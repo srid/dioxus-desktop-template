@@ -19,10 +19,11 @@ This repository is still a work-in-progress. Here's the current progress:
     - [x] Simple `nix build` / `nix run`
     - [ ] Nix package containing macOS app bundle
     - [x] Nix package for Linux
+- [ ] Deployment
+  - [x] macOS bundling
+  - [ ] Linux bundling
 - [x] Tailwind
-- [x] macOS bundling
 - [x] Routes & navigation
-- [ ] Linux bundling
 - [x] [Application state](#application-state)
   - We use `dioxus-signals` which is unreleased, thus we depend on Dioxus from Git.
 
@@ -80,7 +81,7 @@ This repository began in large part to understand how to manage application stat
 
 ## FAQ
 
-- Blank screen on Linux?
+- Blank screen on Linux? See https://github.com/NixOS/nixpkgs/issues/32580
 ```
 WEBKIT_DISABLE_COMPOSITING_MODE=1 nix run
 ```
