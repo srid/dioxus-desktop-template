@@ -15,7 +15,7 @@ fn main() {
             .with_window(
                 WindowBuilder::new()
                     .with_title("Dioxus Desktop Template")
-                    .with_inner_size(LogicalSize::new(600.0, 500.0))
+                    .with_inner_size(LogicalSize::new(600.0, 500.0)),
             ),
     );
 }
@@ -60,8 +60,7 @@ fn Home(cx: Scope) -> Element {
     let state = use_app_state(cx);
     let name = state.name;
     render! {
-        div {
-            class: "flex flex-col items-center justify-center",
+        div { class: "flex flex-col items-center justify-center",
             p {
                 "Hello, "
                 span { class: "font-bold", "{name}" }
@@ -123,7 +122,9 @@ fn About(cx: Scope) -> Element {
                 " app (see source code "
                 a {
                     class: "text-purple-600 hover:text-purple-800",
-                    href: "https://github.com/srid/dioxus-desktop-template" , "here" }
+                    href: "https://github.com/srid/dioxus-desktop-template",
+                    "here"
+                }
                 ")"
             }
             a { href: "https://dioxuslabs.com/", img { class: "w-32 h-32", src: "dioxus.png" } }
