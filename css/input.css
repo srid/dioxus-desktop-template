@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+nav a:not(active) {
+    @apply text-gray-400;
+}
 nav a.active {
     @apply font-bold text-white bg-purple-600 shadow-md;
 }
