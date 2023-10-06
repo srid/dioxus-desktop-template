@@ -15,7 +15,7 @@ fn main() {
             .with_window(
                 WindowBuilder::new()
                     .with_title("Dioxus Desktop Template")
-                    .with_inner_size(LogicalSize::new(600.0, 400.0)),
+                    .with_inner_size(LogicalSize::new(600.0, 500.0))
             ),
     );
 }
@@ -60,20 +60,23 @@ fn Home(cx: Scope) -> Element {
     let state = use_app_state(cx);
     let name = state.name;
     render! {
-        p {
-            "Hello, "
-            span { class: "font-bold", "{name}" }
-            "!"
-        }
         div {
-            class: "hover:bg-purple-200 text-sm mt-4 italic rounded cursor-pointer",
-            onmouseenter: move |_event| {
-                state.reverse_name();
-            },
-            onmouseleave: move |_event| {
-                state.reverse_name();
-            },
-            "Reverse my name!"
+            class: "flex flex-col items-center justify-center",
+            p {
+                "Hello, "
+                span { class: "font-bold", "{name}" }
+                "!"
+            }
+            div {
+                class: "flex items-center hover:bg-purple-200 text-sm mt-4 italic rounded cursor-pointer",
+                onmouseenter: move |_event| {
+                    state.reverse_name();
+                },
+                onmouseleave: move |_event| {
+                    state.reverse_name();
+                },
+                "m-a-n-g-l-e"
+            }
         }
     }
 }
@@ -85,7 +88,7 @@ fn SystemInfo(cx: Scope) -> Element {
     });
     let system = state.system.read();
     render! {
-        div { class: "flex flex-col items-center",
+        div { class: "flex flex-col items-center p-4",
             h1 { class: "text-2xl font-bold mb-4", "System Info" }
             match &*system {
                 None => render! { Loader {} },
@@ -93,7 +96,7 @@ fn SystemInfo(cx: Scope) -> Element {
                     let s = format!("{:?}", system);
                     render! {
                         div {
-                            class: "text-sm font-mono",
+                            class: "text-sm font-mono bg-gray-200 rounded-lg p-4",
                             s
                         }
                     }
@@ -117,7 +120,11 @@ fn About(cx: Scope) -> Element {
             p {
                 "You are looking at a "
                 span { class: "font-bold", "Dioxus" }
-                " app"
+                " app (see source code "
+                a {
+                    class: "text-purple-600 hover:text-purple-800",
+                    href: "https://github.com/srid/dioxus-desktop-template" , "here" }
+                ")"
             }
             a { href: "https://dioxuslabs.com/", img { class: "w-32 h-32", src: "dioxus.png" } }
         }
@@ -127,12 +134,19 @@ fn About(cx: Scope) -> Element {
 fn Nav(cx: Scope) -> Element {
     let NavLink = |route: Route, text: &str| {
         render! {
-            Link { to: route, class: "px-3 py-2 text-purple-600 rounded", active_class: "active", text }
+            Link {
+                to: route,
+                class: "px-3 py-2 hover:text-white rounded-md",
+                active_class: "bg-purple-600 text-white",
+                text
+            }
         }
     };
     render! {
-        nav { class: "flex flex-row justify-between w-full mb-8 px-4 py-2 bg-purple-200",
-            div { class: "flex items-center", h1 { class: "text-lg font-bold", "Dioxus Desktop Template" } }
+        nav { class: "flex flex-row justify-between w-full mb-8 px-4 py-2 bg-gray-800",
+            div { class: "flex items-center",
+                h1 { class: "text-lg font-bold text-white", "Dioxus Desktop Template" }
+            }
             div { class: "flex items-center",
                 NavLink(Route::Home {}, "Home"),
                 NavLink(Route::SystemInfo {}, "System"),
