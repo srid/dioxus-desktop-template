@@ -18,7 +18,7 @@ This repository is still a work-in-progress. Here's the current progress:
   - [ ] Nix package
     - [x] Simple `nix build` / `nix run`
     - [ ] Nix package containing macOS app bundle
-    - [ ] Nix package for Linux
+    - [x] Nix package for Linux
 - [x] Tailwind
 - [x] macOS bundling
 - [x] Routes & navigation
@@ -51,4 +51,11 @@ just bundle
 ```
 nix run github:srid/dioxus-desktop-template
 # Or just `nix run` in the project directory
+```
+
+### FAQ
+
+- Blank screen on Linux?
+```
+WEBKIT_DISABLE_COMPOSITING_MODE=1 nix run
 ```
