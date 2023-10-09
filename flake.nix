@@ -57,6 +57,18 @@
 
         packages.default = self'.packages.dioxus-desktop-template;
 
+        apps.default =
+          let
+            dioxus-desktop-template-wrapper = pkgs.writeShellApplication {
+              name = "dioxus-desktop-template-wrapper";
+              text = "cd ${inputs.self}/assets && ${self'.packages.default}/bin/dioxus-desktop-template";
+            };
+          in
+          if system == "x86_64-linux" then
+            { type = "app"; program = lib.getExe dioxus-desktop-template-wrapper; }
+          else
+            { type = "app"; program = lib.getExe self'.packages.default; };
+
         devShells.default = pkgs.mkShell {
           name = "nix-browser";
           inputsFrom = [
