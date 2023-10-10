@@ -24,13 +24,8 @@ impl AppState {
     }
 
     pub async fn update_systemstat(&self) {
-        let get_sys = || {
-            // Sleep a second to simulate long-running task
-            std::thread::sleep(std::time::Duration::from_secs(1));
-            memory_stats()
-        };
         println!("Updating systemstat...");
-        let sys = tokio::task::spawn_blocking(get_sys).await.unwrap();
+        let sys = tokio::task::spawn_blocking(memory_stats).await.unwrap();
         self.system.with_mut(move |x| {
             *x = sys;
             println!("Updated systemstat to: {:?}", *x);

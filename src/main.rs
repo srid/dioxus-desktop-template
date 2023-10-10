@@ -85,17 +85,26 @@ fn SystemInfo(cx: Scope) -> Element {
     use_future(cx, (), |_| async move {
         state.update_systemstat().await;
     });
-    let system = state.system.read();
+    let system = state.system.as_ref();
     render! {
         div { class: "flex flex-col items-center p-4",
             h1 { class: "text-2xl font-bold mb-4", "System Info" }
-            match &*system {
+            button {
+                class: "px-2 py-1 my-2 bg-purple-600 hover:bg-purple-800 text-white rounded-md",
+                onclick: move |_event| {
+                    cx.spawn(async move {
+                        state.update_systemstat().await;
+                    })
+                },
+                "Update"
+            }
+            match system {
                 None => render! { Loader {} },
                 Some(system) => {
                     let s = format!("{:?}", system);
                     render! {
                         div {
-                            class: "text-sm font-mono bg-gray-200 rounded-lg p-4",
+                            class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight",
                             s
                         }
                     }
