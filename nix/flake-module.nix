@@ -17,9 +17,9 @@ in
 
           dioxus-desktop.rustBuildInputs = lib.mkOption {
             type = lib.types.listOf lib.types.package;
-            default = with pkgs; [
-              pkg-config
-            ] ++ lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
+            default = [ ] ++ lib.optionals pkgs.stdenv.isLinux (with pkgs; [
+              webkitgtk_4_1
+            ]) ++ lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
               IOKit
               Carbon
               WebKit
@@ -81,6 +81,13 @@ in
                   pkgs.dioxus-cli
                   tailwindcss
                 ] ++ config.dioxus-desktop.rustBuildInputs;
+                nativeBuildInputs = with pkgs;[
+                  pkg-config
+                  makeWrapper
+                ];
+                # glib-sys fails to build on linux without this
+                # cf. https://github.com/ipetkov/crane/issues/411#issuecomment-1747533532
+                strictDeps = true;
               };
               cargoArtifacts = craneLib.buildDepsOnly args;
               buildArgs = args // {
@@ -96,6 +103,16 @@ in
                 installPhase =
                   (oa.installPhase or "") + ''
                     cp -r ${self}/assets/* $out/bin/
+                  '';
+                postFixup =
+                  (oa.postFixup or "") + ''
+                    # HACK: The Linux desktop app is unable to locate the assets
+                    # directory, but it does look into the current directory.
+                    # So, `cd` to the directory containing assets (which is
+                    # `bin/`, per the installPhase above) before launching the
+                    # app.
+                    wrapProgram $out/bin/${name} \
+                      --chdir $out/bin
                   '';
               });
 
