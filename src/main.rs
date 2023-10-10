@@ -89,18 +89,21 @@ fn SystemInfo(cx: Scope) -> Element {
     render! {
         div { class: "flex flex-col items-center p-4",
             h1 { class: "text-2xl font-bold mb-4", "System Info" }
-            match &*system {
+            match (*system).as_ref() {
                 None => render! { Loader {} },
-                Some(system) => {
-                    let s = format!("{:?}", system);
-                    render! {
-                        div {
-                            class: "text-sm font-mono bg-gray-200 rounded-lg p-4",
-                            s
-                        }
-                    }
+                Some(system) => render! {
+                    ViewSystem { system: system }
                 }
             }
+        }
+    }
+}
+
+#[component]
+fn ViewSystem<'a>(cx: Scope, system: &'a sysinfo::System) -> Element {
+    render! {
+        div { class: "text-sm font-mono bg-gray-200 rounded-lg p-4",
+            format!("{:?}", system)
         }
     }
 }
