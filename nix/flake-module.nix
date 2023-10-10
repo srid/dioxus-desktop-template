@@ -93,15 +93,20 @@ in
                 inherit cargoArtifacts;
                 # buildPhaseCargoCommand = "cargo leptos build --release -vvv";
                 # cargoTestCommand = "cargo leptos test --release -vvv";
-                # nativeBuildInputs = [
-                #   pkgs.makeWrapper
-                # ];
+                nativeBuildInputs = [
+                  pkgs.makeWrapper
+                ];
               };
               package = (craneLib.buildPackage (buildArgs // config.dioxus-desktop.overrideCraneArgs buildArgs)).overrideAttrs (oa: {
                 # Copy over assets for the desktop app to access
                 installPhase =
                   (oa.installPhase or "") + ''
                     cp -r ${self}/assets/* $out/bin/
+                  '';
+                postFixup =
+                  (oa.postFixup or "") + ''
+                    wrapProgram $out/bin/${name} \
+                      --chdir ${self}/assets
                   '';
               });
 
