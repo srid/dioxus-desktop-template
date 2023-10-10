@@ -1,12 +1,12 @@
 //! Application state
 
 use dioxus_signals::Signal;
-use sysinfo::{System, SystemExt};
+use memory_stats::{memory_stats, MemoryStats};
 
 #[derive(Clone, Copy)]
 pub struct AppState {
     pub name: Signal<String>,
-    pub system: Signal<Option<System>>,
+    pub system: Signal<Option<MemoryStats>>,
 }
 
 impl AppState {
@@ -27,12 +27,12 @@ impl AppState {
         let get_sys = || {
             // Sleep a second to simulate long-running task
             std::thread::sleep(std::time::Duration::from_secs(1));
-            sysinfo::System::new_with_specifics(sysinfo::RefreshKind::new().with_memory())
+            memory_stats()
         };
         println!("Updating systemstat...");
         let sys = tokio::task::spawn_blocking(get_sys).await.unwrap();
         self.system.with_mut(move |x| {
-            *x = Some(sys);
+            *x = sys;
             println!("Updated systemstat to: {:?}", *x);
         });
     }
