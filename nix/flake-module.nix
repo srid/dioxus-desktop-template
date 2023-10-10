@@ -108,9 +108,11 @@ in
                   (oa.postFixup or "") + ''
                     # HACK: The Linux desktop app is unable to locate the assets
                     # directory, but it does look into the current directory.
-                    # So, `cd` to assets directory before launching the app.
+                    # So, `cd` to the directory containing assets (which is
+                    # `bin/`, per the installPhase above) before launching the
+                    # app.
                     wrapProgram $out/bin/${name} \
-                      --chdir ${self}/assets
+                      --chdir $out/bin
                   '';
               });
 
