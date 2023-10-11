@@ -88,7 +88,7 @@ fn SystemInfo(cx: Scope) -> Element {
     };
     use_future(cx, (), |_| update(state));
     let value: ReadOnlySignal<Option<memory_stats::MemoryStats>> =
-        use_selector(cx, move || state.system.read().clone());
+        use_selector(cx, move || *state.system.read());
     let loading: ReadOnlySignal<bool> = use_selector(cx, move || state.system.read().is_none());
     render! {
         div { class: "flex flex-col items-center p-4",
