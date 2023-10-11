@@ -82,9 +82,10 @@ fn Home(cx: Scope) -> Element {
 
 fn SystemInfo(cx: Scope) -> Element {
     let state = use_app_state(cx);
-    use_future(cx, (), |_| async move {
+    let update = |state: AppState| async move {
         state.update_systemstat().await;
-    });
+    };
+    use_future(cx, (), |_| update(state));
     let system = state.system.as_ref();
     render! {
         div { class: "flex flex-col items-center p-4",
@@ -92,24 +93,25 @@ fn SystemInfo(cx: Scope) -> Element {
             button {
                 class: "px-2 py-1 my-2 bg-purple-600 hover:bg-purple-800 text-white rounded-md",
                 onclick: move |_event| {
-                    cx.spawn(async move {
-                        state.update_systemstat().await;
-                    })
+                    cx.spawn(update(state))
                 },
                 "Update"
             }
             match system {
                 None => render! { Loader {} },
-                Some(system) => {
-                    let s = format!("{:?}", system);
-                    render! {
-                        div {
-                            class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight",
-                            s
-                        }
-                    }
-                }
+                Some(system) => render! { ViewMemoryStats { stats: *system } }
             }
+        }
+    }
+}
+
+#[component]
+fn ViewMemoryStats(cx: Scope, stats: memory_stats::MemoryStats) -> Element {
+    let s = format!("{:?}", stats);
+    render! {
+        div {
+            class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight",
+            "{s}"
         }
     }
 }
