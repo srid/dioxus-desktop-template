@@ -4,7 +4,7 @@ mod state;
 use dioxus::prelude::*;
 use dioxus_desktop::{LogicalSize, WindowBuilder};
 use dioxus_router::prelude::*;
-use dioxus_signals::{use_selector, ReadOnlySignal};
+use memory_stats::MemoryStats;
 use state::AppState;
 
 fn main() {
@@ -86,39 +86,31 @@ fn SystemInfo(cx: Scope) -> Element {
     let fut = use_future(cx, (), |_| async move {
         state.update_systemstat().await;
     });
-    let value: ReadOnlySignal<Option<memory_stats::MemoryStats>> =
-        use_selector(cx, move || *state.system.read());
-    let loading: ReadOnlySignal<bool> = use_selector(cx, move || state.system.read().is_none());
+    let system = state.system.read();
     render! {
         div { class: "flex flex-col items-center p-4",
             h1 { class: "text-2xl font-bold mb-4", "System Info" }
             button {
                 class: "px-2 py-1 my-2 bg-purple-600 hover:bg-purple-800 text-white rounded-md",
-                onclick: move |_event| {
-                    fut.restart()
-                },
+                onclick: move |_event| { fut.restart() },
                 "Update"
             }
-            Loader { loading: loading }
-            render! { ViewMemoryStats { stats: value } }
+            match system.as_ref() {
+                Some(stats) => render! { ViewMemoryStats { stats: *stats } },
+                None => render! { Loader {} }
+            }
         }
     }
 }
 
 #[component]
-fn ViewMemoryStats(cx: Scope, stats: ReadOnlySignal<Option<memory_stats::MemoryStats>>) -> Element {
-    let s = format!("{:?}", (*stats.read())?);
-    render! {
-        div {
-            class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight",
-            "{s}"
-        }
-    }
+fn ViewMemoryStats(cx: Scope, stats: MemoryStats) -> Element {
+    let s = state::memory_stats_repr(*stats);
+    render! {div { class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight", "{s}" }}
 }
 
 #[component]
-fn Loader(cx: Scope, loading: ReadOnlySignal<bool>) -> Element {
-    ((*loading.read()).then_some(()))?;
+fn Loader(cx: Scope) -> Element {
     render! {
         div { class: "flex justify-center items-center",
             div { class: "animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500" }
