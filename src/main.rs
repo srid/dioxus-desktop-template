@@ -83,10 +83,9 @@ fn Home(cx: Scope) -> Element {
 
 fn SystemInfo(cx: Scope) -> Element {
     let state = use_app_state(cx);
-    let update = |state: AppState| async move {
+    let fut = use_future(cx, (), |_| async move {
         state.update_systemstat().await;
-    };
-    use_future(cx, (), |_| update(state));
+    });
     let value: ReadOnlySignal<Option<memory_stats::MemoryStats>> =
         use_selector(cx, move || *state.system.read());
     let loading: ReadOnlySignal<bool> = use_selector(cx, move || state.system.read().is_none());
@@ -96,7 +95,7 @@ fn SystemInfo(cx: Scope) -> Element {
             button {
                 class: "px-2 py-1 my-2 bg-purple-600 hover:bg-purple-800 text-white rounded-md",
                 onclick: move |_event| {
-                    cx.spawn(update(state))
+                    fut.restart()
                 },
                 "Update"
             }
@@ -119,7 +118,7 @@ fn ViewMemoryStats(cx: Scope, stats: ReadOnlySignal<Option<memory_stats::MemoryS
 
 #[component]
 fn Loader(cx: Scope, loading: ReadOnlySignal<bool>) -> Element {
-    ((*loading.read()).then(|| ()))?;
+    ((*loading.read()).then_some(()))?;
     render! {
         div { class: "flex justify-center items-center",
             div { class: "animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500" }
