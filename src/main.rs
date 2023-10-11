@@ -4,7 +4,7 @@ mod state;
 use dioxus::prelude::*;
 use dioxus_desktop::{LogicalSize, WindowBuilder};
 use dioxus_router::prelude::*;
-use dioxus_signals::{use_selector, ReadOnlySignal, Signal};
+use dioxus_signals::{use_selector, ReadOnlySignal};
 use state::AppState;
 
 fn main() {
