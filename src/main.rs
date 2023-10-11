@@ -4,6 +4,7 @@ mod state;
 use dioxus::prelude::*;
 use dioxus_desktop::{LogicalSize, WindowBuilder};
 use dioxus_router::prelude::*;
+use dioxus_signals::{use_selector, ReadOnlySignal, Signal};
 use state::AppState;
 
 fn main() {
@@ -86,7 +87,9 @@ fn SystemInfo(cx: Scope) -> Element {
         state.update_systemstat().await;
     };
     use_future(cx, (), |_| update(state));
-    let system = state.system.as_ref();
+    let value: ReadOnlySignal<Option<memory_stats::MemoryStats>> =
+        use_selector(cx, move || state.system.read().clone());
+    let loading: ReadOnlySignal<bool> = use_selector(cx, move || state.system.read().is_none());
     render! {
         div { class: "flex flex-col items-center p-4",
             h1 { class: "text-2xl font-bold mb-4", "System Info" }
@@ -97,17 +100,15 @@ fn SystemInfo(cx: Scope) -> Element {
                 },
                 "Update"
             }
-            match system {
-                None => render! { Loader {} },
-                Some(system) => render! { ViewMemoryStats { stats: *system } }
-            }
+            Loader { loading: loading }
+            render! { ViewMemoryStats { stats: value } }
         }
     }
 }
 
 #[component]
-fn ViewMemoryStats(cx: Scope, stats: memory_stats::MemoryStats) -> Element {
-    let s = format!("{:?}", stats);
+fn ViewMemoryStats(cx: Scope, stats: ReadOnlySignal<Option<memory_stats::MemoryStats>>) -> Element {
+    let s = format!("{:?}", (*stats.read())?);
     render! {
         div {
             class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight",
@@ -116,7 +117,9 @@ fn ViewMemoryStats(cx: Scope, stats: memory_stats::MemoryStats) -> Element {
     }
 }
 
-fn Loader(cx: Scope) -> Element {
+#[component]
+fn Loader(cx: Scope, loading: ReadOnlySignal<bool>) -> Element {
+    ((*loading.read()).then(|| ()))?;
     render! {
         div { class: "flex justify-center items-center",
             div { class: "animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500" }
