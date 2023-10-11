@@ -25,7 +25,13 @@ impl AppState {
 
     pub async fn update_systemstat(&self) {
         println!("Updating systemstat...");
-        let sys = tokio::task::spawn_blocking(memory_stats).await.unwrap();
+        let compute_with_delay = || {
+            std::thread::sleep(std::time::Duration::from_secs(1));
+            memory_stats()
+        };
+        let sys = tokio::task::spawn_blocking(compute_with_delay)
+            .await
+            .unwrap();
         self.system.with_mut(move |x| {
             *x = sys;
             println!("Updated systemstat to: {:?}", *x);
