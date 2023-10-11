@@ -96,8 +96,8 @@ fn SystemInfo(cx: Scope) -> Element {
                 "Update"
             }
             match system.as_ref() {
-                Some(stats) => render! { ViewMemoryStats { stats: *stats } },
-                None => render! { Loader {} }
+                None => render! { Loader {} },
+                Some(stats) => render! { ViewMemoryStats { stats: *stats } }
             }
         }
     }
