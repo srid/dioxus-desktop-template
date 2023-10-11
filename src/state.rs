@@ -38,3 +38,12 @@ impl AppState {
         });
     }
 }
+
+pub fn memory_stats_repr(stats: MemoryStats) -> String {
+    format!(
+        "Physical: {} GiB, Virtual: {} GiB, Raw: {:?}",
+        stats.physical_mem / 1024 / 1024,
+        stats.virtual_mem / 1024 / 1024,
+        stats
+    )
+}

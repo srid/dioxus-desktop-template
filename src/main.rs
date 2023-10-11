@@ -4,6 +4,7 @@ mod state;
 use dioxus::prelude::*;
 use dioxus_desktop::{LogicalSize, WindowBuilder};
 use dioxus_router::prelude::*;
+use memory_stats::MemoryStats;
 use state::AppState;
 
 fn main() {
@@ -82,40 +83,33 @@ fn Home(cx: Scope) -> Element {
 
 fn SystemInfo(cx: Scope) -> Element {
     let state = use_app_state(cx);
-    let update = |state: AppState| async move {
+    let fut = use_future(cx, (), |_| async move {
         state.update_systemstat().await;
-    };
-    use_future(cx, (), |_| update(state));
-    let system = state.system.as_ref();
+    });
+    let system = state.system.read();
     render! {
         div { class: "flex flex-col items-center p-4",
             h1 { class: "text-2xl font-bold mb-4", "System Info" }
             button {
                 class: "px-2 py-1 my-2 bg-purple-600 hover:bg-purple-800 text-white rounded-md",
-                onclick: move |_event| {
-                    cx.spawn(update(state))
-                },
+                onclick: move |_event| { fut.restart() },
                 "Update"
             }
-            match system {
+            match system.as_ref() {
                 None => render! { Loader {} },
-                Some(system) => render! { ViewMemoryStats { stats: *system } }
+                Some(stats) => render! { ViewMemoryStats { stats: *stats } }
             }
         }
     }
 }
 
 #[component]
-fn ViewMemoryStats(cx: Scope, stats: memory_stats::MemoryStats) -> Element {
-    let s = format!("{:?}", stats);
-    render! {
-        div {
-            class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight",
-            "{s}"
-        }
-    }
+fn ViewMemoryStats(cx: Scope, stats: MemoryStats) -> Element {
+    let s = state::memory_stats_repr(*stats);
+    render! {div { class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight", "{s}" }}
 }
 
+#[component]
 fn Loader(cx: Scope) -> Element {
     render! {
         div { class: "flex justify-center items-center",
