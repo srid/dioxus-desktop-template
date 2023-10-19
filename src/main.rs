@@ -125,11 +125,7 @@ fn About(cx: Scope) -> Element {
                 "You are looking at a "
                 span { class: "font-bold", "Dioxus" }
                 " app (see source code "
-                a {
-                    class: "text-purple-600 hover:text-purple-800",
-                    href: "https://github.com/srid/dioxus-desktop-template",
-                    "here"
-                }
+                ExternalLink { href: "https://github.com/srid/dioxus-desktop-template", "here" }
                 ")"
             }
             a { href: "https://dioxuslabs.com/", img { class: "w-32 h-32", src: "dioxus.png" } }
@@ -159,5 +155,12 @@ fn Nav(cx: Scope) -> Element {
                 NavLink(Route::About {}, "About")
             }
         }
+    }
+}
+
+#[component]
+fn ExternalLink<'a>(cx: Scope, href: &'static str, children: Element<'a>) -> Element {
+    render! {
+        a { class: "text-purple-600 hover:text-purple-800", href: "{href}", children }
     }
 }
