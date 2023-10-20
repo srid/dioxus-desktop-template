@@ -19,13 +19,15 @@ in
             type = lib.types.listOf lib.types.package;
             default = [ ] ++ lib.optionals pkgs.stdenv.isLinux (with pkgs; [
               webkitgtk_4_1
-            ]) ++ lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
-              IOKit
-              Carbon
-              WebKit
-              Security
-              Cocoa
-            ]);
+            ]) ++ lib.optionals pkgs.stdenv.isDarwin (
+              with pkgs.darwin.apple_sdk.frameworks; [
+                IOKit
+                Carbon
+                WebKit
+                Security
+                Cocoa
+              ]
+            );
             description = "Build inputs for building the cargo package";
           };
 
