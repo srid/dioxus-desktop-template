@@ -20,7 +20,9 @@ in
             default = [ ] ++ lib.optionals pkgs.stdenv.isLinux (with pkgs; [
               webkitgtk_4_1
             ]) ++ lib.optionals pkgs.stdenv.isDarwin (
-              with pkgs.darwin.apple_sdk.frameworks; [
+              # Use newer SDK because some crates require it
+              # cf. https://github.com/NixOS/nixpkgs/pull/261683#issuecomment-1772935802
+              with pkgs.darwin.apple_sdk_11_0.frameworks; [
                 IOKit
                 Carbon
                 WebKit
