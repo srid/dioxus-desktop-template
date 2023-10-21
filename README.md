@@ -36,12 +36,8 @@ Stretch goals:
 In the `nix develop` shell, run:
 
 ```
-# Run these in two separate terminals
-just tw     # Tailwind watcher
-just watch  # Dioxus watcher
+just watch 
 ```
-
-We do not have Nix builds yet; see tasks above.
 
 ### Creating macOS app bundle
 

@@ -28,7 +28,7 @@ in
                 Cocoa
               ]
             );
-            description = "Build inputs for building the cargo package";
+            description = "(Runtime) buildInputs for the cargo package";
           };
 
           dioxus-desktop.rustToolchain = lib.mkOption {
@@ -80,12 +80,12 @@ in
                 pname = name;
                 version = version;
                 buildInputs = [
-                  pkgs.dioxus-cli
-                  tailwindcss
                 ] ++ config.dioxus-desktop.rustBuildInputs;
                 nativeBuildInputs = with pkgs;[
                   pkg-config
                   makeWrapper
+                  tailwindcss
+                  dioxus-cli
                 ];
                 # glib-sys fails to build on linux without this
                 # cf. https://github.com/ipetkov/crane/issues/411#issuecomment-1747533532
@@ -94,17 +94,12 @@ in
               cargoArtifacts = craneLib.buildDepsOnly args;
               buildArgs = args // {
                 inherit cargoArtifacts;
-                # buildPhaseCargoCommand = "cargo leptos build --release -vvv";
-                # cargoTestCommand = "cargo leptos test --release -vvv";
-                # nativeBuildInputs = [
-                #   pkgs.makeWrapper
-                # ];
               };
               package = (craneLib.buildPackage (buildArgs // config.dioxus-desktop.overrideCraneArgs buildArgs)).overrideAttrs (oa: {
                 # Copy over assets for the desktop app to access
                 installPhase =
                   (oa.installPhase or "") + ''
-                    cp -r ${self}/assets/* $out/bin/
+                    cp -r ./assets/* $out/bin/
                   '';
                 postFixup =
                   (oa.postFixup or "") + ''
