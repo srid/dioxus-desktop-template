@@ -55,6 +55,19 @@
           };
         };
 
+        packages.cargo-xwin = pkgs.rustPlatform.buildRustPackage rec {
+          pname = "cargo-xwin";
+          version = "0.14.8";
+          src = pkgs.fetchFromGitHub {
+            owner = "rust-cross";
+            repo = pname;
+            rev = "v${version}";
+            sha256 = "sha256-VhpqmGhGBqB20ZteIwbd0GCIUltBGfBw7XF9lH7witA=";
+          };
+          buildInputs = [ ] ++ lib.optionals pkgs.stdenv.isDarwin [ pkgs.darwin.apple_sdk.frameworks.Security ];
+          cargoHash = "sha256-e5QyaiQKlIzBwJE781BrhdVINacw0iniPywIsoMlCGg=";
+        };
+
         packages.default = self'.packages.dioxus-desktop-template;
 
         devShells.default = pkgs.mkShell {
