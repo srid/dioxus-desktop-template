@@ -129,6 +129,12 @@ in
                   '';
               });
               package-windows = (craneLib.buildPackage (buildArgs-windows // config.dioxus-desktop.overrideCraneArgs buildArgs-windows)).overrideAttrs (oa: {
+                # Copy over assets for the desktop app to access
+                installPhase =
+                  (oa.installPhase or "") + ''
+                    cp -r ./assets/* $out/bin/
+                  '';
+
                 CARGO_BUILD_TARGET = "x86_64-pc-windows-msvc";
                 doCheck = false;
 
