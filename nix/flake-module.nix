@@ -99,10 +99,16 @@ in
               };
               buildArgs-windows = args // {
                 inherit cargoArtifacts;
-                # By default xwin uses a cache directory with no permissions to write
-                XWIN_CACHE_DIR = "$TMPDIR/xwin-cache";
+                # By setting HOME to the TMPDIR (build directory), `dirs` crate will
+                # use the TMPDIR as the cache directory
+                # This is a workaround, check here: https://github.com/srid/dioxus-desktop-template/pull/12#issuecomment-1774194986
+                HOME = "$TMPDIR";
                 buildPhaseCargoCommand = ''
                   cargo xwin build --release --target $CARGO_BUILD_TARGET
+                '';
+                installPhaseCommand = ''
+                  mkdir -p $out/bin
+                  mv target/$CARGO_BUILD_TARGET/release/${name}.exe $out/bin/${name}.exe
                 '';
               };
               package = (craneLib.buildPackage (buildArgs // config.dioxus-desktop.overrideCraneArgs buildArgs)).overrideAttrs (oa: {
