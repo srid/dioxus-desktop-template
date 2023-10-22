@@ -40,7 +40,7 @@ in
                 "rust-analyzer"
                 "clippy"
               ];
-              targets = [ "x86_64-pc-windows-gnu" ];
+              targets = [ "x86_64-pc-windows-msvc" ];
             };
           };
 
@@ -83,6 +83,7 @@ in
                 buildInputs = [
                 ] ++ config.dioxus-desktop.rustBuildInputs;
                 nativeBuildInputs = with pkgs;[
+                  self'.packages.cargo-xwin
                   pkg-config
                   makeWrapper
                   tailwindcss
@@ -95,6 +96,14 @@ in
               cargoArtifacts = craneLib.buildDepsOnly args;
               buildArgs = args // {
                 inherit cargoArtifacts;
+              };
+              buildArgs-windows = args // {
+                inherit cargoArtifacts;
+                # By default xwin uses a cache directory with no permissions to write
+                XWIN_CACHE_DIR = "$TMPDIR/xwin-cache";
+                buildPhaseCargoCommand = ''
+                  cargo xwin build --release --target $CARGO_BUILD_TARGET
+                '';
               };
               package = (craneLib.buildPackage (buildArgs // config.dioxus-desktop.overrideCraneArgs buildArgs)).overrideAttrs (oa: {
                 # Copy over assets for the desktop app to access
@@ -113,8 +122,8 @@ in
                       --chdir $out/bin
                   '';
               });
-              package-windows = (craneLib.buildPackage (buildArgs // config.dioxus-desktop.overrideCraneArgs buildArgs)).overrideAttrs (oa: {
-                CARGO_BUILD_TARGET = "x86_64-pc-windows-gnu";
+              package-windows = (craneLib.buildPackage (buildArgs-windows // config.dioxus-desktop.overrideCraneArgs buildArgs-windows)).overrideAttrs (oa: {
+                CARGO_BUILD_TARGET = "x86_64-pc-windows-msvc";
                 doCheck = false;
 
                 depsBuildBuild = with pkgs; [
