@@ -40,6 +40,7 @@ in
                 "rust-analyzer"
                 "clippy"
               ];
+              targets = [ "x86_64-pc-windows-gnu" ];
             };
           };
 
@@ -112,6 +113,15 @@ in
                       --chdir $out/bin
                   '';
               });
+              package-windows = (craneLib.buildPackage (buildArgs // config.dioxus-desktop.overrideCraneArgs buildArgs)).overrideAttrs (oa: {
+                CARGO_BUILD_TARGET = "x86_64-pc-windows-gnu";
+                doCheck = false;
+
+                depsBuildBuild = with pkgs; [
+                  pkgsCross.mingwW64.stdenv.cc
+                  pkgsCross.mingwW64.windows.pthreads
+                ];
+              });
 
               check = craneLib.cargoClippy (args // {
                 inherit cargoArtifacts;
@@ -150,6 +160,7 @@ in
           {
             # Rust package
             packages.${name} = craneBuild.package;
+            packages."${name}-windows" = craneBuild.package-windows;
             packages."${name}-doc" = craneBuild.doc;
 
             checks."${name}-clippy" = craneBuild.check;
