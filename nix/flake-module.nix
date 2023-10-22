@@ -104,6 +104,7 @@ in
                   pkgsCross.mingwW64.stdenv.cc
                 ];
                 CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUSTFLAGS = "-L native=${pkgs.pkgsCross.mingwW64.windows.pthreads}/lib";
+                doCheck = false;
 
                 # Copy over assets for the desktop app to access
                 installPhase =
@@ -117,7 +118,7 @@ in
                     # So, `cd` to the directory containing assets (which is
                     # `bin/`, per the installPhase above) before launching the
                     # app.
-                    wrapProgram $out/bin/${name} \
+                    wrapProgram $out/bin/${name}.exe \
                       --chdir $out/bin
                   '';
               });
