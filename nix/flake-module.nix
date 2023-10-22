@@ -34,7 +34,8 @@ in
           dioxus-desktop.rustToolchain = lib.mkOption {
             type = lib.types.package;
             description = "Rust toolchain to use for the dioxus-desktop package";
-            default = (pkgs.rust-bin.fromRustupToolchainFile (self + /rust-toolchain.toml)).override {
+            default = pkgs.rust-bin.stable.latest.default.override {
+              targets = [ "x86_64-pc-windows-gnu" ];
               extensions = [
                 "rust-src"
                 "rust-analyzer"
@@ -96,6 +97,14 @@ in
                 inherit cargoArtifacts;
               };
               package = (craneLib.buildPackage (buildArgs // config.dioxus-desktop.overrideCraneArgs buildArgs)).overrideAttrs (oa: {
+                strictDeps = true;
+                CARGO_BUILD_TARGET = "x86_64-pc-windows-gnu";
+
+                depsBuildBuild = with pkgs; [
+                  pkgsCross.mingwW64.stdenv.cc
+                  pkgsCross.mingwW64.windows.pthreads
+                ];
+                CARGO_BUILD_RUSTFLAGS = "-lpthreadGC2";
                 # Copy over assets for the desktop app to access
                 installPhase =
                   (oa.installPhase or "") + ''
