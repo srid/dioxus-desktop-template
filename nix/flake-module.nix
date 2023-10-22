@@ -111,6 +111,7 @@ in
                   (oa.installPhase or "") + ''
                     cp -r ./assets/* $out/bin/
                   '';
+                /*
                 postFixup =
                   (oa.postFixup or "") + ''
                     # HACK: The Linux desktop app is unable to locate the assets
@@ -121,6 +122,7 @@ in
                     wrapProgram $out/bin/${name}.exe \
                       --chdir $out/bin
                   '';
+                  */
               });
 
               check = craneLib.cargoClippy (args // {
