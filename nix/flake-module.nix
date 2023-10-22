@@ -137,11 +137,6 @@ in
 
                 CARGO_BUILD_TARGET = "x86_64-pc-windows-msvc";
                 doCheck = false;
-
-                depsBuildBuild = with pkgs; [
-                  pkgsCross.mingwW64.stdenv.cc
-                  pkgsCross.mingwW64.windows.pthreads
-                ];
               });
 
               check = craneLib.cargoClippy (args // {
