@@ -99,9 +99,7 @@ in
               };
               buildArgs-windows = args // {
                 inherit cargoArtifacts;
-                # By setting HOME to the TMPDIR (build directory), `dirs` crate will
-                # use the TMPDIR as the cache directory
-                # This is a workaround, check here: https://github.com/srid/dioxus-desktop-template/pull/12#issuecomment-1774194986
+                # TODO: Cache should be fetched in a different phase as build happens in a sandbox
                 XWIN_CACHE_DIR = "$TMPDIR/xwin";
                 CMAKE_CACHE_DIR = "$TMPDIR/cmake";
                 buildPhaseCargoCommand = ''
