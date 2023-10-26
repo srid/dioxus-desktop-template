@@ -42,7 +42,7 @@
           inherit system;
           overlays = [
             inputs.rust-overlay.overlays.default
-            (self: super:{
+            (self: super: {
               cargo-xwin = super.cargo-xwin.overrideAttrs {
                 src = self.fetchFromGitHub {
                   owner = "shivaraj-bh";
