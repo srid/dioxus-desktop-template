@@ -83,7 +83,7 @@ in
                 buildInputs = [
                 ] ++ config.dioxus-desktop.rustBuildInputs;
                 nativeBuildInputs = with pkgs;[
-                  self'.packages.cargo-xwin
+                  cargo-xwin
                   pkg-config
                   makeWrapper
                   tailwindcss
