@@ -42,6 +42,16 @@
           inherit system;
           overlays = [
             inputs.rust-overlay.overlays.default
+            (self: super:{
+              cargo-xwin = super.cargo-xwin.overrideAttrs {
+                src = self.fetchFromGitHub {
+                  owner = "shivaraj-bh";
+                  repo = "cargo-xwin";
+                  rev = "cmake_cache_dir";
+                  sha256 = "sha256-FglBzVEQXy0TEp2y0QAOXt3gxCUa04080EnUr9jxVwE=";
+                };
+              };
+            })
           ];
         };
 

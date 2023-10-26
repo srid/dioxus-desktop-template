@@ -102,7 +102,8 @@ in
                 # By setting HOME to the TMPDIR (build directory), `dirs` crate will
                 # use the TMPDIR as the cache directory
                 # This is a workaround, check here: https://github.com/srid/dioxus-desktop-template/pull/12#issuecomment-1774194986
-                HOME = "$TMPDIR";
+                XWIN_CACHE_DIR = "$TMPDIR/xwin";
+                CMAKE_CACHE_DIR = "$TMPDIR/cmake";
                 buildPhaseCargoCommand = ''
                   cargo xwin build --release --target $CARGO_BUILD_TARGET
                 '';
