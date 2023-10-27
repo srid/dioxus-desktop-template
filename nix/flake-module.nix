@@ -100,8 +100,7 @@ in
               buildArgs-windows = args // {
                 inherit cargoArtifacts;
                 # TODO: Cache should be fetched in a different phase as build happens in a sandbox
-                XWIN_CACHE_DIR = "$TMPDIR/xwin";
-                CMAKE_CACHE_DIR = "$TMPDIR/cmake";
+                XWIN_CACHE_DIR = "$TMPDIR";
                 buildPhaseCargoCommand = ''
                   cargo xwin build --release --target $CARGO_BUILD_TARGET
                 '';

@@ -48,7 +48,7 @@
                   owner = "shivaraj-bh";
                   repo = "cargo-xwin";
                   rev = "cmake_cache_dir";
-                  sha256 = "sha256-FglBzVEQXy0TEp2y0QAOXt3gxCUa04080EnUr9jxVwE=";
+                  sha256 = "sha256-5axzoSFs89RL7GvkAa8IRPeKeJHQ80ynDM8doidlgYs=";
                 };
               };
             })
