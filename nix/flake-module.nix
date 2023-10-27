@@ -40,6 +40,7 @@ in
                 "rust-analyzer"
                 "clippy"
               ];
+              targets = [ "x86_64-pc-windows-msvc" ];
             };
           };
 
@@ -82,6 +83,7 @@ in
                 buildInputs = [
                 ] ++ config.dioxus-desktop.rustBuildInputs;
                 nativeBuildInputs = with pkgs;[
+                  cargo-xwin
                   pkg-config
                   makeWrapper
                   tailwindcss
@@ -94,6 +96,18 @@ in
               cargoArtifacts = craneLib.buildDepsOnly args;
               buildArgs = args // {
                 inherit cargoArtifacts;
+              };
+              buildArgs-windows = args // {
+                inherit cargoArtifacts;
+                # TODO: Cache should be fetched in a different phase as build happens in a sandbox
+                XWIN_CACHE_DIR = "$TMPDIR";
+                buildPhaseCargoCommand = ''
+                  cargo xwin build --release --target $CARGO_BUILD_TARGET
+                '';
+                installPhaseCommand = ''
+                  mkdir -p $out/bin
+                  mv target/$CARGO_BUILD_TARGET/release/${name}.exe $out/bin/${name}.exe
+                '';
               };
               package = (craneLib.buildPackage (buildArgs // config.dioxus-desktop.overrideCraneArgs buildArgs)).overrideAttrs (oa: {
                 # Copy over assets for the desktop app to access
@@ -111,6 +125,16 @@ in
                     wrapProgram $out/bin/${name} \
                       --chdir $out/bin
                   '';
+              });
+              package-windows = (craneLib.buildPackage (buildArgs-windows // config.dioxus-desktop.overrideCraneArgs buildArgs-windows)).overrideAttrs (oa: {
+                # Copy over assets for the desktop app to access
+                installPhase =
+                  (oa.installPhase or "") + ''
+                    cp -r ./assets/* $out/bin/
+                  '';
+
+                CARGO_BUILD_TARGET = "x86_64-pc-windows-msvc";
+                doCheck = false;
               });
 
               check = craneLib.cargoClippy (args // {
@@ -150,6 +174,7 @@ in
           {
             # Rust package
             packages.${name} = craneBuild.package;
+            packages."${name}-windows" = craneBuild.package-windows;
             packages."${name}-doc" = craneBuild.doc;
 
             checks."${name}-clippy" = craneBuild.check;
