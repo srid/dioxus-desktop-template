@@ -58,7 +58,7 @@
         packages.default = self'.packages.dioxus-desktop-template;
 
         devShells.default = pkgs.mkShell {
-          name = "nix-browser";
+          name = "dioxus-desktop-template";
           inputsFrom = [
             config.treefmt.build.devShell
             self'.devShells.dioxus-desktop-template
