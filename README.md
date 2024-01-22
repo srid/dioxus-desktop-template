@@ -75,6 +75,12 @@ This repository began in large part to understand how to manage application stat
   - Write *async* modifier methods on the state struct, and have them update the field signals.
   - In the UI components, use `use_future` to invoke these async methods to update the state before the component is renderer (or upon an user event).
 
+## As flake module
+
+We provide a flake module to reuse the Nix in this code. This is useful for Dioxus desktop apps. Projects that do this currently:
+
+- https://github.com/juspay/nix-browser
+
 ## FAQ
 
 - Blank screen on Linux? See https://github.com/NixOS/nixpkgs/issues/32580
