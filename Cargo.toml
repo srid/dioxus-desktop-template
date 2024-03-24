@@ -9,7 +9,6 @@ build = "build.rs"
 [dependencies]
 dioxus = { features = [
     "desktop",
-    "liveview",
 ], git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
 dioxus-desktop = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
 dioxus-router = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
