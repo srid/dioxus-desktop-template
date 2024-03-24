@@ -16,7 +16,7 @@ fn main() {
                 .with_title("Dioxus Desktop Template")
                 .with_inner_size(LogicalSize::new(600.0, 500.0)),
         );
-    LaunchBuilder::new().with_cfg(config).launch(App);
+    LaunchBuilder::desktop().with_cfg(config).launch(App);
 }
 
 #[derive(Routable, PartialEq, Debug, Clone)]
