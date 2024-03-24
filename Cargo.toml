@@ -13,6 +13,8 @@ dioxus = { features = [
 dioxus-desktop = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
 dioxus-router = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
 dioxus-signals = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
+dioxus-fullstack = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
+dioxus-liveview = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
 dioxus-std = { version = "0.4.0", features = ["clipboard", "utils"] }
 memory-stats = "1.1.0"
 tokio = "1.32.0"
