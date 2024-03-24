@@ -137,7 +137,7 @@ fn NavLink(route: Route, children: Element) -> Element {
             to: route,
             class: "px-3 py-2 hover:text-white rounded-md",
             active_class: "bg-purple-600 text-white",
-            {{ children }}
+            {children}
         }
     }
 }
@@ -164,7 +164,7 @@ fn ExternalLink(href: &'static str, title: &'static str, children: Element) -> E
             class: "text-purple-600 hover:text-purple-800",
             href: "{href}",
             title: "{title}",
-            {{ children }}
+            {children}
         }
     }
 }
