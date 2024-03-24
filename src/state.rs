@@ -1,6 +1,6 @@
 //! Application state
 
-use dioxus_signals::Signal;
+use dioxus_signals::{Signal, Writable};
 use memory_stats::{memory_stats, MemoryStats};
 
 #[derive(Clone, Copy)]
@@ -23,7 +23,7 @@ impl AppState {
         self.name.with_mut(|s| *s = reverse(s));
     }
 
-    pub async fn update_systemstat(&self) {
+    pub async fn update_systemstat(&mut self) {
         println!("Updating systemstat...");
         let compute_with_delay = || {
             std::thread::sleep(std::time::Duration::from_secs(1));
