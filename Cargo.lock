@@ -789,6 +789,7 @@ dependencies = [
  "dioxus 0.5.0-alpha.2",
  "dioxus-desktop",
  "dioxus-fullstack",
+ "dioxus-hooks 0.5.0-alpha.2",
  "dioxus-router",
  "dioxus-signals",
  "dioxus-std",
