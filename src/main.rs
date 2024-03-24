@@ -131,7 +131,7 @@ fn About() -> Element {
 }
 
 #[component]
-fn NavLink (route: Route, children: Element) -> Element {
+fn NavLink(route: Route, children: Element) -> Element {
     rsx! {
         Link {
             to: route,
@@ -147,11 +147,11 @@ fn Nav() -> Element {
         nav { class: "flex flex-row justify-between w-full mb-8 px-4 py-2 bg-gray-800",
             div { class: "flex items-center",
                 h1 { class: "text-lg font-bold text-white", "Dioxus Desktop Template" }
-            },
+            }
             div { class: "flex items-center",
-                NavLink { route: Route::Home {}, "Home"},
-                NavLink { route: Route::SystemInfo {}, "System"},
-                NavLink { route: Route::About {}, "About"}
+                NavLink { route: Route::Home {}, "Home" }
+                NavLink { route: Route::SystemInfo {}, "System" }
+                NavLink { route: Route::About {}, "About" }
             }
         }
     }
