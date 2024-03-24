@@ -17,11 +17,11 @@ in
 
           dioxus-desktop.rustBuildInputs = lib.mkOption {
             type = lib.types.listOf lib.types.package;
-            default = [ ] ++ lib.optionals pkgs.stdenv.isLinux (with pkgs; [
+            default = with pkgs; [ openssl libiconv pkg-config ] ++ lib.optionals stdenv.isLinux ([
               webkitgtk_4_1
               xdotool
-            ]) ++ lib.optionals pkgs.stdenv.isDarwin (
-              with pkgs.darwin.apple_sdk.frameworks; [
+            ]) ++ lib.optionals stdenv.isDarwin (
+              with darwin.apple_sdk.frameworks; [
                 IOKit
                 Carbon
                 WebKit
@@ -84,9 +84,9 @@ in
                 ] ++ config.dioxus-desktop.rustBuildInputs;
                 nativeBuildInputs = with pkgs;[
                   pkg-config
+                  perl # https://discourse.nixos.org/t/failed-to-compile-openssl-sys-with-rust-on-macos/20785/6
                   makeWrapper
                   tailwindcss
-                  dioxus-cli
                 ];
                 # glib-sys fails to build on linux without this
                 # cf. https://github.com/ipetkov/crane/issues/411#issuecomment-1747533532
@@ -150,8 +150,11 @@ in
           in
           {
             # Rust package
-            packages.${name} = craneBuild.package;
-            packages."${name}-doc" = craneBuild.doc;
+            packages = {
+              ${name} = craneBuild.package;
+              "${name}-doc" = craneBuild.doc;
+              "${name}-deps" = craneBuild.cargoArtifacts;
+            };
 
             checks."${name}-clippy" = craneBuild.check;
 
@@ -160,9 +163,8 @@ in
               inputsFrom = [
                 rustDevShell
               ];
-              nativeBuildInputs = with pkgs; [
+              nativeBuildInputs = [
                 tailwindcss
-                dioxus-cli
               ];
             };
           };
