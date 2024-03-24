@@ -11,7 +11,8 @@
     systems.url = "github:nix-systems/default";
 
     rust-overlay.url = "github:oxalica/rust-overlay";
-    crane.url = "github:ipetkov/crane";
+    # https://github.com/ipetkov/crane/issues/527
+    crane.url = "github:ipetkov/crane/2c653e4478476a52c6aa3ac0495e4dea7449ea0e"; # Cargo.toml parsing is broken in newer crane (Mar 24)
     crane.inputs.nixpkgs.follows = "nixpkgs";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";

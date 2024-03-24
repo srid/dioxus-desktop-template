@@ -9,16 +9,14 @@ use state::AppState;
 
 fn main() {
     // launch the dioxus app in a webview
-    dioxus_desktop::launch_cfg(
-        App,
-        dioxus_desktop::Config::new()
-            .with_custom_head(r#"<link rel="stylesheet" href="tailwind.css">"#.to_string())
-            .with_window(
-                WindowBuilder::new()
-                    .with_title("Dioxus Desktop Template")
-                    .with_inner_size(LogicalSize::new(600.0, 500.0)),
-            ),
-    );
+    let config = dioxus_desktop::Config::new()
+        .with_custom_head(r#"<link rel="stylesheet" href="tailwind.css">"#.to_string())
+        .with_window(
+            WindowBuilder::new()
+                .with_title("Dioxus Desktop Template")
+                .with_inner_size(LogicalSize::new(600.0, 500.0)),
+        );
+    LaunchBuilder::desktop().with_cfg(config).launch(App);
 }
 
 #[derive(Routable, PartialEq, Debug, Clone)]
@@ -33,19 +31,14 @@ enum Route {
         About {},
 }
 
-/// Get the [AppState] from context
-fn use_app_state(cx: Scope) -> AppState {
-    *use_context(cx).unwrap()
+fn App() -> Element {
+    use_context_provider(AppState::new);
+
+    rsx! { Router::<Route> {} }
 }
 
-fn App(cx: Scope) -> Element {
-    use_context_provider(cx, AppState::new);
-
-    cx.render(rsx! { Router::<Route> {} })
-}
-
-fn Wrapper(cx: Scope) -> Element {
-    render! {
+fn Wrapper() -> Element {
+    rsx! {
         div { class: "container text-xl flex flex-col items-center justify-between h-screen",
             Nav {}
             div { class: "m-auto p-4", Outlet::<Route> {} }
@@ -57,10 +50,10 @@ fn Wrapper(cx: Scope) -> Element {
     }
 }
 
-fn Home(cx: Scope) -> Element {
-    let state = use_app_state(cx);
+fn Home() -> Element {
+    let mut state = use_context::<AppState>();
     let name = state.name;
-    render! {
+    rsx! {
         div { class: "flex flex-col items-center justify-center",
             p {
                 "Hello, "
@@ -81,13 +74,13 @@ fn Home(cx: Scope) -> Element {
     }
 }
 
-fn SystemInfo(cx: Scope) -> Element {
-    let state = use_app_state(cx);
-    let fut = use_future(cx, (), |_| async move {
+fn SystemInfo() -> Element {
+    let mut state = use_context::<AppState>();
+    let mut fut = use_resource(move || async move {
         state.update_systemstat().await;
     });
     let system = state.system.read();
-    render! {
+    rsx! {
         div { class: "flex flex-col items-center p-4",
             h1 { class: "text-2xl font-bold mb-4", "System Info" }
             button {
@@ -96,30 +89,30 @@ fn SystemInfo(cx: Scope) -> Element {
                 "Update"
             }
             match system.as_ref() {
-                None => render! { Loader {} },
-                Some(stats) => render! { ViewMemoryStats { stats: *stats } }
+                None => rsx! { Loader {} },
+                Some(stats) => rsx! { ViewMemoryStats { stats: *stats } }
             }
         }
     }
 }
 
 #[component]
-fn ViewMemoryStats(cx: Scope, stats: MemoryStats) -> Element {
-    let s = state::memory_stats_repr(*stats);
-    render! {div { class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight", "{s}" }}
+fn ViewMemoryStats(stats: MemoryStats) -> Element {
+    let s = state::memory_stats_repr(stats);
+    rsx! {div { class: "text-sm font-mono bg-gray-200 rounded-lg p-4 animate-highlight", "{s}" }}
 }
 
 #[component]
-fn Loader(cx: Scope) -> Element {
-    render! {
+fn Loader() -> Element {
+    rsx! {
         div { class: "flex justify-center items-center",
             div { class: "animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500" }
         }
     }
 }
 
-fn About(cx: Scope) -> Element {
-    render! {
+fn About() -> Element {
+    rsx! {
         div { class: "flex flex-col items-center",
             p {
                 "You are looking at a "
@@ -137,44 +130,41 @@ fn About(cx: Scope) -> Element {
     }
 }
 
-fn Nav(cx: Scope) -> Element {
-    let NavLink = |route: Route, text: &str| {
-        render! {
-            Link {
-                to: route,
-                class: "px-3 py-2 hover:text-white rounded-md",
-                active_class: "bg-purple-600 text-white",
-                text
-            }
+#[component]
+fn NavLink(route: Route, children: Element) -> Element {
+    rsx! {
+        Link {
+            to: route,
+            class: "px-3 py-2 hover:text-white rounded-md",
+            active_class: "bg-purple-600 text-white",
+            {children}
         }
-    };
-    render! {
+    }
+}
+
+fn Nav() -> Element {
+    rsx! {
         nav { class: "flex flex-row justify-between w-full mb-8 px-4 py-2 bg-gray-800",
             div { class: "flex items-center",
                 h1 { class: "text-lg font-bold text-white", "Dioxus Desktop Template" }
             }
             div { class: "flex items-center",
-                NavLink(Route::Home {}, "Home"),
-                NavLink(Route::SystemInfo {}, "System"),
-                NavLink(Route::About {}, "About")
+                NavLink { route: Route::Home {}, "Home" }
+                NavLink { route: Route::SystemInfo {}, "System" }
+                NavLink { route: Route::About {}, "About" }
             }
         }
     }
 }
 
 #[component]
-fn ExternalLink<'a>(
-    cx: Scope,
-    href: &'static str,
-    title: &'static str,
-    children: Element<'a>,
-) -> Element {
-    render! {
+fn ExternalLink(href: &'static str, title: &'static str, children: Element) -> Element {
+    rsx! {
         a {
             class: "text-purple-600 hover:text-purple-800",
             href: "{href}",
             title: "{title}",
-            children
+            {children}
         }
     }
 }
