@@ -84,6 +84,7 @@ in
                 ] ++ config.dioxus-desktop.rustBuildInputs;
                 nativeBuildInputs = with pkgs;[
                   pkg-config
+                  perl # https://discourse.nixos.org/t/failed-to-compile-openssl-sys-with-rust-on-macos/20785/6
                   makeWrapper
                   tailwindcss
                 ];
