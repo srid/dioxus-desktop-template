@@ -5,7 +5,7 @@ A starter template for [Dioxus](https://dioxuslabs.com/) Desktop apps w/ Tailwin
 ## Goal
 
 Act as starter project for writing new desktop apps using Dioxus, along with
-- [Nix](https://zero-to-nix.com/) support
+- [Nix](https://nixos.asia/en/nix-tutorial) support
 - Author's preferred tools
   - Tailwind
 
