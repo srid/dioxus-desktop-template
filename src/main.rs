@@ -164,7 +164,7 @@ fn ExternalLink(href: &'static str, title: &'static str, children: Element) -> E
             class: "text-purple-600 hover:text-purple-800",
             href: "{href}",
             title: "{title}",
-            children
+            {{ children }}
         }
     }
 }
