@@ -18,7 +18,7 @@ impl AppState {
         }
     }
 
-    pub fn reverse_name(&self) {
+    pub fn reverse_name(&mut self) {
         let reverse = |s: &String| s.chars().rev().collect::<String>();
         self.name.with_mut(|s| *s = reverse(s));
     }

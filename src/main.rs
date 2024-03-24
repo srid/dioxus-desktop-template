@@ -31,11 +31,6 @@ enum Route {
         About {},
 }
 
-/// Get the [AppState] from context
-fn use_app_state() -> AppState {
-    use_context::<AppState>()
-}
-
 fn App() -> Element {
     use_context_provider(AppState::new);
 
@@ -56,7 +51,7 @@ fn Wrapper() -> Element {
 }
 
 fn Home() -> Element {
-    let state = use_app_state();
+    let mut state = use_context::<AppState>();
     let name = state.name;
     rsx! {
         div { class: "flex flex-col items-center justify-center",
@@ -80,8 +75,8 @@ fn Home() -> Element {
 }
 
 fn SystemInfo() -> Element {
-    let state = use_app_state();
-    let fut = use_resource(move || async move {
+    let mut state = use_context::<AppState>();
+    let mut fut = use_resource(move || async move {
         state.update_systemstat().await;
     });
     let system = state.system.read();
@@ -154,9 +149,9 @@ fn Nav() -> Element {
                 h1 { class: "text-lg font-bold text-white", "Dioxus Desktop Template" }
             },
             div { class: "flex items-center",
-                NavLink { Route::Home {}, "Home"},
-                NavLink { Route::SystemInfo {}, "System"},
-                NavLink { Route::About {}, "About"}
+                NavLink { route: Route::Home {}, "Home"},
+                NavLink { route: Route::SystemInfo {}, "System"},
+                NavLink { route: Route::About {}, "About"}
             }
         }
     }
@@ -169,7 +164,7 @@ fn ExternalLink(href: &'static str, title: &'static str, children: Element) -> E
             class: "text-purple-600 hover:text-purple-800",
             href: "{href}",
             title: "{title}",
-            {{ children }}
+            children
         }
     }
 }
