@@ -24,8 +24,7 @@ This repository is still a work-in-progress. Here's the current progress:
   - [ ] Linux bundling
 - [x] Tailwind
 - [x] Routes & navigation
-- [x] [Application state](#application-state)
-  - We use `dioxus-signals` which is unreleased, thus we depend on Dioxus from Git.
+- [x] [Application state](#application-state) (via `dioxus-signals` from 0.5)
 
 Stretch goals:
 

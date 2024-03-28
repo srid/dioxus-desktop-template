@@ -7,14 +7,9 @@ build = "build.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-dioxus = { features = [
-    "desktop",
-], git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
-dioxus-desktop = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
-dioxus-router = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
-dioxus-signals = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
-dioxus-fullstack = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
-dioxus-hooks = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "b19a546c0ac639a5cf9e942fff7729ad30e91a5e" }
-dioxus-std = { version = "0.4.0", features = ["clipboard", "utils"] }
+dioxus = { version = "0.5.0", features = [ "desktop" ] }
+dioxus-desktop = "0.5.0"
+dioxus-router = "0.5.0"
+dioxus-signals = "0.5.0"
 memory-stats = "1.1.0"
 tokio = "1.32.0"
