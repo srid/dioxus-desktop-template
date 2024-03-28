@@ -66,7 +66,6 @@
           ];
           packages = with pkgs; [
             just
-            nixci
             # Dioxus
             dioxus-cli
 
