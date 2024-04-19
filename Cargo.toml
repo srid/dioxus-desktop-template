@@ -7,7 +7,7 @@ build = "build.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-dioxus = { version = "0.5.0", features = [ "desktop" ] }
+dioxus = { version = "0.5.0", features = ["desktop"] }
 dioxus-desktop = "0.5.0"
 dioxus-router = "0.5.0"
 dioxus-signals = "0.5.0"
