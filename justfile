@@ -15,4 +15,4 @@ watch $RUST_BACKTRACE="1" $CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG="true":
 bundle $CI="true":
     # HACK (change PWD): Until https://github.com/DioxusLabs/dioxus/issues/1283
     cd assets && dx bundle 
-    nix run nixpkgs#eza -- -T ./dist/bundle/macos/dioxus-desktop-template.app
+    nix run nixpkgs#lsd -- --tree ./dist/bundle/macos/dioxus-desktop-template.app
