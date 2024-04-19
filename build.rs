@@ -1,3 +1,4 @@
+// TODO: Remove this in favour of https://dioxuslabs.com/learn/0.5/reference/assets
 use std::process::Command;
 
 const INPUT_CSS_PATH: &str = "./css/input.css";
