@@ -1,6 +1,6 @@
 # dioxus-desktop-template
 
-A starter template for [Dioxus](https://dioxuslabs.com/) Desktop apps w/ Tailwind & Nix
+A starter template for [Dioxus](https://dioxuslabs.com/) Desktop apps, with Tailwind & Nix support.
 
 ## Goal
 
