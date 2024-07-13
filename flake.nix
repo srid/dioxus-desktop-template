@@ -65,7 +65,8 @@
         ];
 
         rust-project = {
-          crane.args = {
+          crates."dioxus-desktop-template".crane.args = {
+            meta.description = "A starter template for Dioxus Desktop apps w/ Tailwind & Nix";
             buildInputs = lib.optionals pkgs.stdenv.isLinux
               (with pkgs; [
                 webkitgtk_4_1
@@ -95,7 +96,7 @@
               (lib.hasInfix "/assets/" path) ||
               (lib.hasInfix "/css/" path) ||
               # Default filter from crane (allow .rs files)
-              (config.rust-project.crane.lib.filterCargoSources path type)
+              (config.rust-project.crane-lib.filterCargoSources path type)
             ;
           };
         };
@@ -113,7 +114,7 @@
               # So, `cd` to the directory containing assets (which is
               # `bin/`, per the installPhase above) before launching the
               # app.
-              wrapProgram $out/bin/${config.rust-project.cargoToml.package.name} \
+              wrapProgram $out/bin/${oa.pname} \
                 --chdir $out/bin
             '';
         });
@@ -122,7 +123,7 @@
           name = "dioxus-desktop-template";
           inputsFrom = [
             config.treefmt.build.devShell
-            self'.devShells.dioxus-desktop-template
+            self'.devShells.rust
           ];
           packages = with pkgs; [
             just
