@@ -1,0 +1,35 @@
+name: "CI"
+on:
+  push:
+    branches:
+      - "main"
+      - "ci/**"
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ${{ matrix.system }}
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        system: [x86_64-linux, aarch64-darwin, x86_64-darwin]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      # Prep systems list
+      # Workaround until https://github.com/juspay/omnix/issues/210
+      - name: Systems to build
+        run: |
+          mkdir ~/systems
+          echo '{ outputs = _: {}; }' > ~/systems/flake.nix
+          echo '[ "${{ matrix.system }}" ]' > ~/systems/default.nix
+
+      # Run CI
+      - name: Omnix CI
+        run: |
+          om ci \
+            --extra-access-tokens ${{ secrets.GITHUB_TOKEN }} \
+            run --systems "path:$HOME/systems"
+
